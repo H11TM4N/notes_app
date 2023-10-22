@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
+import 'package:notes_app/data/utils/custom_page_route_transition.dart';
 import 'package:notes_app/logic/bloc/notes_bloc.dart';
 import 'package:notes_app/logic/bloc/notes_event.dart';
 import 'package:notes_app/logic/bloc/notes_state.dart';
@@ -68,14 +69,6 @@ class _NotesViewState extends State<NotesView> {
                 )
               : AppBar(
                   title: const Text('Notes'),
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        refreshPage();
-                      },
-                      icon: const Icon(Icons.refresh),
-                    )
-                  ],
                 ),
           body: BlocBuilder<NotesBloc, NotesState>(
             builder: (context, state) {
@@ -88,39 +81,43 @@ class _NotesViewState extends State<NotesView> {
                   child: CircularProgressIndicator.adaptive(),
                 );
               } else if (state.status == NoteStatus.success) {
-                return ListView.builder(
-                  itemCount: state.notes.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onLongPress: () {
-                        selectNote(index);
-                      },
-                      child: KslidableWidget(
-                        onDelete: (_) => deleteNote(state.notes[index]),
-                        child: KListTile(
-                          title: state.notes[index].title,
-                          onTap: () {
-                            if (state.selectedIndices.isNotEmpty) {
-                              deSelectNote(index);
-                            } else if (state.selectedIndices.contains(index)) {
-                              selectNote(index);
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditNotePage(index: index),
-                                ),
-                              );
-                            }
-                          },
-                          tileColor: state.selectedIndices.contains(index)
-                              ? Colors.blue.withOpacity(0.5)
-                              : null,
-                        ),
-                      ),
-                    );
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    return await refreshPage();
                   },
+                  child: ListView.builder(
+                    itemCount: state.notes.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onLongPress: () {
+                          selectNote(index);
+                        },
+                        child: KslidableWidget(
+                          onDelete: (_) => deleteNote(state.notes[index]),
+                          child: KListTile(
+                            title: state.notes[index].title,
+                            onTap: () {
+                              if (state.selectedIndices.isNotEmpty) {
+                                deSelectNote(index);
+                              } else if (state.selectedIndices
+                                  .contains(index)) {
+                                selectNote(index);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MyCustomRouteTransition(
+                                      route: EditNotePage(index: index)),
+                                );
+                              }
+                            },
+                            tileColor: state.selectedIndices.contains(index)
+                                ? Colors.blue.withOpacity(0.5)
+                                : null,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 );
               } else {
                 return const Text('An unexpected error occured');
@@ -131,10 +128,7 @@ class _NotesViewState extends State<NotesView> {
             onPressed: () {
               makeReadOnlyFalse(state.readOnly);
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AddNotePage(),
-                  ));
+                  context, MyCustomRouteTransition(route: const AddNotePage()));
             },
             child: const Icon(Icons.add),
           ),
