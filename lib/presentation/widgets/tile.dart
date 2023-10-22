@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/data/utils/date_formatter.dart';
 
 class KListTile extends StatelessWidget {
   final String title;
@@ -39,13 +38,6 @@ class KListTile extends StatelessWidget {
             child: Text(
               title,
               style: const TextStyle(fontSize: 20),
-            ),
-          ),
-          trailing: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              formattedDate(DateTime.now()),
-              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
           onTap: onTap,

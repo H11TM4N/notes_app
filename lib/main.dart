@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/data/repositories/shared_prefs_repo.dart';
 import 'package:notes_app/logic/bloc/notes_bloc.dart';
 import 'package:notes_app/logic/bloc/notes_event.dart';
 import 'package:notes_app/presentation/pages/notes_view.dart';
@@ -8,17 +9,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  runApp(MyApp(prefs: prefs));
+  final SharedPreferencesRepository sharedPreferencesRepository =
+      SharedPreferencesRepository(prefs);
+
+  runApp(MyApp(sharedPreferencesRepository: sharedPreferencesRepository));
 }
 
 class MyApp extends StatelessWidget {
-  final SharedPreferences prefs;
+  final SharedPreferencesRepository sharedPreferencesRepository;
 
-  const MyApp({super.key, required this.prefs});
+  const MyApp({super.key, required this.sharedPreferencesRepository});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NotesBloc(prefs: prefs)..add(AppStartedEvent()),
+      create: (context) => NotesBloc(
+        sharedPreferencesRepository: sharedPreferencesRepository,
+      )..add(AppStartedEvent()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Todo app using bloc',

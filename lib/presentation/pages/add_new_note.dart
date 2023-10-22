@@ -44,7 +44,6 @@ class _AddNotePageState extends State<AddNotePage> {
                           Note(
                             title: _titleController.text,
                             content: _notesController.text,
-                            date: DateTime.now(),
                           ),
                         );
                         Navigator.pop(context);

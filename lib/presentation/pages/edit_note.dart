@@ -53,7 +53,6 @@ class _EditNotePageState extends State<EditNotePage> {
                           Note(
                             title: titleController.text,
                             content: notesController.text,
-                            date: DateTime.now(),
                           ),
                         );
                         Navigator.pop(context);
@@ -69,9 +68,9 @@ class _EditNotePageState extends State<EditNotePage> {
                           editNote(
                             widget.index,
                             Note(
-                                title: titleController.text,
-                                content: notesController.text,
-                                date: DateTime.now()),
+                              title: titleController.text,
+                              content: notesController.text,
+                            ),
                           );
                           makeReadOnlyTrue(state.readOnly);
                         }
