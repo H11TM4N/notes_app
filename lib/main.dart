@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/repositories/shared_prefs_repo.dart';
 import 'package:notes_app/logic/bloc/notes_bloc.dart';
 import 'package:notes_app/logic/bloc/notes_event.dart';
-import 'package:notes_app/presentation/pages/notes_view.dart';
+import 'package:notes_app/presentation/pages/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 17),
           ),
         ),
-        home: const NotesView(),
+        home: const HomePage(),
       ),
     );
   }
