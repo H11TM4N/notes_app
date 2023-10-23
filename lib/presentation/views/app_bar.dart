@@ -18,22 +18,22 @@ class KappBar extends StatelessWidget implements PreferredSizeWidget {
 
     return BlocBuilder<NotesBloc, NotesState>(
       builder: (context, state) {
-        return Scaffold(
-          appBar: state.selectedIndices.isNotEmpty
-              ? AppBar(
-                  leading: IconButton(
-                    onPressed: () {
-                      clearSelection();
-                    },
-                    icon: const Icon(Icons.clear),
-                  ),
-                  title: Text(
-                      '${state.selectedIndices.length}/${state.notes.length} Selected'),
-                )
-              : AppBar(
-                  title: const Text('Notes'),
-                ),
-        );
+        if (state.selectedIndices.isNotEmpty) {
+          return AppBar(
+            leading: IconButton(
+              onPressed: () {
+                clearSelection();
+              },
+              icon: const Icon(Icons.clear),
+            ),
+            title: Text(
+                '${state.selectedIndices.length}/${state.notes.length} Selected'),
+          );
+        } else {
+          return AppBar(
+            title: const Text('Notes'),
+          );
+        }
       },
     );
   }

@@ -36,60 +36,58 @@ class _NotesViewState extends State<NotesView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<NotesBloc, NotesState>(
-        builder: (context, state) {
-          if (state.status == NoteStatus.initial) {
-            return const Center(
-              child: Text('No notes added yet...'),
-            );
-          } else if (state.status == NoteStatus.loading) {
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
-            );
-          } else if (state.status == NoteStatus.success) {
-            return RefreshIndicator(
-              onRefresh: () async {
-                return await refreshPage();
-              },
-              child: ListView.builder(
-                itemCount: state.notes.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onLongPress: () {
-                      selectNote(index);
-                    },
-                    child: KslidableWidget(
-                      onDelete: (_) => deleteNote(state.notes[index]),
-                      child: KListTile(
-                        title: state.notes[index].title,
-                        onTap: () {
-                          if (state.selectedIndices.isNotEmpty) {
-                            deSelectNote(index);
-                          } else if (state.selectedIndices.contains(index)) {
-                            selectNote(index);
-                          } else {
-                            Navigator.push(
-                              context,
-                              MyCustomRouteTransition(
-                                  route: EditNotePage(index: index)),
-                            );
-                          }
-                        },
-                        tileColor: state.selectedIndices.contains(index)
-                            ? Colors.blue.withOpacity(0.5)
-                            : null,
-                      ),
+    return BlocBuilder<NotesBloc, NotesState>(
+      builder: (context, state) {
+        if (state.status == NoteStatus.initial) {
+          return const Center(
+            child: Text('No notes added yet...'),
+          );
+        } else if (state.status == NoteStatus.loading) {
+          return const Center(
+            child: CircularProgressIndicator.adaptive(),
+          );
+        } else if (state.status == NoteStatus.success) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              return await refreshPage();
+            },
+            child: ListView.builder(
+              itemCount: state.notes.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onLongPress: () {
+                    selectNote(index);
+                  },
+                  child: KslidableWidget(
+                    onDelete: (_) => deleteNote(state.notes[index]),
+                    child: KListTile(
+                      title: state.notes[index].title,
+                      onTap: () {
+                        if (state.selectedIndices.isNotEmpty) {
+                          deSelectNote(index);
+                        } else if (state.selectedIndices.contains(index)) {
+                          selectNote(index);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MyCustomRouteTransition(
+                                route: EditNotePage(index: index)),
+                          );
+                        }
+                      },
+                      tileColor: state.selectedIndices.contains(index)
+                          ? Colors.blue.withOpacity(0.5)
+                          : null,
                     ),
-                  );
-                },
-              ),
-            );
-          } else {
-            return const Text('An unexpected error occured');
-          }
-        },
-      ),
+                  ),
+                );
+              },
+            ),
+          );
+        } else {
+          return const Text('An unexpected error occured');
+        }
+      },
     );
   }
 }

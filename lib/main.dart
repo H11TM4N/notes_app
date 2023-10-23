@@ -5,12 +5,17 @@ import 'package:notes_app/logic/bloc/notes_bloc.dart';
 import 'package:notes_app/logic/bloc/notes_event.dart';
 import 'package:notes_app/presentation/pages/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final SharedPreferencesRepository sharedPreferencesRepository =
       SharedPreferencesRepository(prefs);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(MyApp(sharedPreferencesRepository: sharedPreferencesRepository));
 }
