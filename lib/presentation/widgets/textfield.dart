@@ -15,6 +15,7 @@ class KtextField extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextField(
         controller: controller,
+        obscureText: true,
         decoration: InputDecoration(
           hintText: hintText,
           labelStyle: const TextStyle(color: Colors.white),
@@ -26,6 +27,46 @@ class KtextField extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class KtextFormField extends StatelessWidget {
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
+  final String hintText;
+  final bool? obscureText;
+  final Widget? suffixIcon;
+
+  const KtextFormField({
+    super.key,
+    required this.controller,
+    required this.validator,
+    required this.hintText,
+    this.obscureText,
+    this.suffixIcon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      validator: validator,
+      decoration: InputDecoration(
+        suffixIcon: suffixIcon,
+        contentPadding: const EdgeInsets.all(25),
+        filled: true,
+        hintText: hintText,
+        border: const OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          ),
+        ),
+      ),
+      // onSaved: (newValue) {
+      //   _email = newValue!;
+      // },
     );
   }
 }

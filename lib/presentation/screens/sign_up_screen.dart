@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/data/utils/auth_utils/show_loading_dialog.dart';
 import 'package:notes_app/data/utils/auth_utils/snakbar.dart';
 import 'package:notes_app/presentation/widgets/elevated_button.dart';
+import 'package:notes_app/presentation/widgets/textfield.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -14,14 +15,15 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  bool _obscureText = true;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  RegExp emailValid =
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _displayNameController = TextEditingController();
+  final RegExp _emailValid =
       RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  // String _email = '';
-  // String _password = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,71 +41,78 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             const SizedBox(height: 20),
             Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: KtextFormField(
+                controller: _displayNameController,
+                validator: (value) {
+                  if (value!.length < 6) {
+                    return 'Name must be at least 6 characters';
+                  }
+                  return null;
+                },
+                hintText: 'Enter a display name',
+              ),
+            ),
+            const SizedBox(height: 20),
+            Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
-                controller: emailController,
+              child: KtextFormField(
+                controller: _emailController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
-                  } else if (!emailValid.hasMatch(value)) {
+                  } else if (!_emailValid.hasMatch(value)) {
                     return 'Please enter a valid email';
                   }
                   return null;
                 },
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(25),
-                  filled: true,
-                  hintText: 'Enter your email',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30),
-                    ),
-                  ),
-                ),
-                // onSaved: (newValue) {
-                //   _email = newValue!;
-                // },
+                hintText: 'Enter your email',
+                obscureText: false,
               ),
             ),
             const SizedBox(height: 20),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 15),
-              child: TextFormField(
-                controller: passwordController,
+              child: KtextFormField(
+                controller: _passwordController,
                 validator: (value) {
                   if (value!.length < 6) {
                     return 'password must be at least 6 characters';
                   }
                   return null;
                 },
-                decoration: const InputDecoration(
-                  hintText: 'password',
-                  filled: true,
-                  contentPadding: EdgeInsets.all(25),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30),
-                    ),
+                hintText: 'Enter a password',
+                obscureText: _obscureText,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
                   ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
                 ),
-                // onSaved: (newValue) {
-                //   _password = newValue!;
-                // },
               ),
             ),
             KelevatedButton(
               text: 'Sign up',
               onPressed: () async {
+                FocusScope.of(context).unfocus();
+                String displayName = _displayNameController.text;
                 final currentContext = context;
                 if (_formKey.currentState!.validate()) {
                   showLoadingDialog(context, 'Signing up...');
                   try {
-                    await _firebaseAuth.createUserWithEmailAndPassword(
-                        email: emailController.text,
-                        password: passwordController.text);
+                    UserCredential userCredential =
+                        await _firebaseAuth.createUserWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text);
+                    User? user = userCredential.user;
+                    await user?.updateDisplayName(displayName);
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(kSnackBar('Sign up successful. Login'));
                   } catch (e) {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(currentContext).showSnackBar(
