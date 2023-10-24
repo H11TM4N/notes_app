@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/data/utils/auth_utils/show_loading_dialog.dart';
+import 'package:notes_app/data/utils/auth_utils/snakbar.dart';
 import 'package:notes_app/presentation/widgets/elevated_button.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -94,19 +98,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               onPressed: () async {
                 final currentContext = context;
                 if (_formKey.currentState!.validate()) {
+                  showLoadingDialog(context, 'Signing up...');
                   try {
                     await _firebaseAuth.createUserWithEmailAndPassword(
                         email: emailController.text,
                         password: passwordController.text);
-
-                    if (!mounted) return;
                     Navigator.pop(context);
                   } catch (e) {
+                    Navigator.pop(context);
                     ScaffoldMessenger.of(currentContext).showSnackBar(
-                      SnackBar(
-                        content: Text('$e'),
-                        behavior: SnackBarBehavior.floating,
-                      ),
+                      kSnackBar('$e'),
                     );
                   }
                 }

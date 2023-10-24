@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/data/repositories/shared_prefs_repo.dart';
+import 'package:notes_app/data/repositories/shared_preferences_repositories/shared_prefs_repo.dart';
 import 'package:notes_app/logic/bloc/notes_event.dart';
 import 'package:notes_app/logic/bloc/notes_state.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/data/utils/pop_up_button.dart';
+import 'package:notes_app/data/utils/others/pop_up_button.dart';
 import 'package:notes_app/logic/bloc/notes_bloc.dart';
 import 'package:notes_app/logic/bloc/notes_event.dart';
 import 'package:notes_app/logic/bloc/notes_state.dart';

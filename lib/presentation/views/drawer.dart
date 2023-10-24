@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/data/utils/custom_page_route_transition.dart';
+import 'package:notes_app/data/utils/auth_utils/show_loading_dialog.dart';
+import 'package:notes_app/data/utils/auth_utils/snakbar.dart';
+import 'package:notes_app/data/utils/others/nav.dart';
 import 'package:notes_app/logic/bloc/notes_bloc.dart';
 import 'package:notes_app/logic/bloc/notes_state.dart';
 import 'package:notes_app/presentation/screens/sign_in_screen.dart';
@@ -35,13 +39,25 @@ class _KdrawerState extends State<Kdrawer> {
                         accountEmail: Text('${user!.email}'),
                         currentAccountPicture: const CircleAvatar(),
                         otherAccountsPictures: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.info_outline,
-                              color: Colors.black,
-                            ),
-                          ),
+                          PopupMenuButton(
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                onTap: () async {
+                                  showLoadingDialog(context, 'Signing out...');
+                                  try {
+                                    await FirebaseAuth.instance.signOut();
+                                    Navigator.pop(context);
+                                    kSnackBar('Sign out successful');
+                                  } catch (e) {
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                    kSnackBar('Sign out failed');
+                                  }
+                                },
+                                child: const Text('Sign out'),
+                              )
+                            ],
+                          )
                         ],
                       );
                     }
@@ -50,8 +66,7 @@ class _KdrawerState extends State<Kdrawer> {
                       accountEmail: const Text('Not Signed in'),
                       currentAccountPicture: const CircleAvatar(),
                       onDetailsPressed: () {
-                        Navigator.of(context).push(MyCustomRouteTransition(
-                            route: const SignInScreen()));
+                        kNavigation(context, const SignInScreen());
                       },
                     );
                   }),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/data/repositories/shared_prefs_repo.dart';
+import 'package:notes_app/data/repositories/shared_preferences_repositories/shared_prefs_repo.dart';
 import 'package:notes_app/logic/bloc/notes_bloc.dart';
 import 'package:notes_app/logic/bloc/notes_event.dart';
 import 'package:notes_app/presentation/pages/home_page.dart';
