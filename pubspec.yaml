@@ -47,6 +47,9 @@ dependencies:
   flutter_test:
     sdk: flutter
   firebase_core: ^2.19.0
+  flutter_hooks: ^0.20.3
+  firebase_ui_auth: ^1.9.1
+  firebase_auth: ^4.11.1
 
 dev_dependencies:
 

@@ -85,7 +85,15 @@ class _NotesViewState extends State<NotesView> {
             ),
           );
         } else {
-          return const Text('An unexpected error occured');
+          return Column(
+            children: [
+              const Text('An unexpected error occured'),
+              TextButton(
+                onPressed: () => refreshPage(),
+                child: const Text('refresh page'),
+              )
+            ],
+          );
         }
       },
     );

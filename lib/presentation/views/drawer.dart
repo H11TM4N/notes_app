@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/data/utils/custom_page_route_transition.dart';
 import 'package:notes_app/logic/bloc/notes_bloc.dart';
 import 'package:notes_app/logic/bloc/notes_state.dart';
+import 'package:notes_app/presentation/screens/sign_in_screen.dart';
 
 class Kdrawer extends StatefulWidget {
   const Kdrawer({super.key});
@@ -22,11 +25,36 @@ class _KdrawerState extends State<Kdrawer> {
         return Drawer(
           child: ListView(
             children: [
-              const UserAccountsDrawerHeader(
-                accountName: Text('Jeremiah'),
-                accountEmail: Text('Jeremiah.dev@gmail.com'),
-                currentAccountPicture: CircleAvatar(),
-              ),
+              StreamBuilder<User?>(
+                  stream: FirebaseAuth.instance.authStateChanges(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final user = snapshot.data;
+                      return UserAccountsDrawerHeader(
+                        accountName: const Text('Jeremiah'),
+                        accountEmail: Text('${user!.email}'),
+                        currentAccountPicture: const CircleAvatar(),
+                        otherAccountsPictures: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.info_outline,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return UserAccountsDrawerHeader(
+                      accountName: const Text('. . .'),
+                      accountEmail: const Text('Not Signed in'),
+                      currentAccountPicture: const CircleAvatar(),
+                      onDetailsPressed: () {
+                        Navigator.of(context).push(MyCustomRouteTransition(
+                            route: const SignInScreen()));
+                      },
+                    );
+                  }),
               DrawerHeader(
                 child: Column(
                   children: [
