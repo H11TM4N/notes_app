@@ -1,31 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/data/repositories/shared_preferences_repositories/shared_prefs_repo.dart';
-import 'package:notes_app/logic/bloc/notes_event.dart';
-import 'package:notes_app/logic/bloc/notes_state.dart';
+import 'package:notes_app/logic/notes_bloc/notes_event.dart';
+import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
-  final SharedPreferencesRepository sharedPreferencesRepository;
-  NotesBloc({required this.sharedPreferencesRepository})
-      : super(const NotesState()) {
+  NotesBloc() : super(const NotesState()) {
     on<AppStartedEvent>((event, emit) async {
       emit(
         state.copyWith(status: NoteStatus.loading),
       );
       try {
-        final List<Note> notes = await sharedPreferencesRepository.loadNotesFromPrefs();
-        if (notes.isEmpty) {
-          emit(state.copyWith(
-            notes: notes,
-            status: NoteStatus.initial,
-          ));
-        } else {
-          emit(state.copyWith(
-            notes: notes,
-            status: NoteStatus.success,
-          ));
-        }
+        emit(state.copyWith(
+          notes: [],
+          status: NoteStatus.success,
+        ));
       } catch (e) {
         emit(state.copyWith(status: NoteStatus.error));
       }
@@ -39,9 +28,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
         List<Note> temp = [];
         temp.addAll(state.notes);
         temp.insert(0, event.note);
-
-        await sharedPreferencesRepository.saveNotesToPrefs(temp);
-
         emit(state.copyWith(
           notes: temp,
           status: NoteStatus.success,
@@ -58,7 +44,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       try {
         state.notes.remove(event.note);
 
-        await sharedPreferencesRepository.saveNotesToPrefs(state.notes);
         if (state.notes.isEmpty) {
           emit(state.copyWith(
             status: NoteStatus.initial,
@@ -85,8 +70,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
         for (var index in selectedIndices) {
           updatedNotes.removeAt(index);
         }
-        await sharedPreferencesRepository.saveNotesToPrefs(updatedNotes);
-
         if (updatedNotes.isEmpty) {
           emit(state.copyWith(
             notes: updatedNotes,
@@ -111,7 +94,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
         List<Note>? updatedNotes = List.from(state.notes);
         if (event.index >= 0 && event.index < updatedNotes.length) {
           updatedNotes[event.index] = event.updatedNote;
-          await sharedPreferencesRepository.saveNotesToPrefs(state.notes);
           emit(state.copyWith(
             notes: updatedNotes,
             status: NoteStatus.success,
@@ -167,7 +149,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     });
 
     on<ClearSelectionEvent>((event, emit) async {
-      await sharedPreferencesRepository.saveNotesToPrefs(state.notes);
       emit(state.copyWith(selectedIndices: [])); // Clear the selected indices
     });
   }

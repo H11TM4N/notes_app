@@ -6,11 +6,11 @@ void showLoadingDialog(BuildContext context, String text) {
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        content: Column(
+        content: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             const CircularProgressIndicator(),
-            const SizedBox(height: 16),
+            const SizedBox(width: 10),
             Text(text),
           ],
         ),

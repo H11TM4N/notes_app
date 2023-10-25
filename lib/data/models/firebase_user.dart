@@ -9,7 +9,7 @@ class FirebaseUser {
   FirebaseUser({
     required this.email,
     required this.name,
-    required this.profilePic,
+    required this.profilePic
   });
 
   FirebaseUser copyWith({
@@ -46,16 +46,16 @@ class FirebaseUser {
       FirebaseUser.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'FirebaseUser(email: $email, name: $name, profilePic: $profilePic)';
+  String toString() => 'FirebaseUser(email: $email, name: $name, profilePic: $profilePic)';
 
   @override
   bool operator ==(covariant FirebaseUser other) {
     if (identical(this, other)) return true;
-
-    return other.email == email &&
-        other.name == name &&
-        other.profilePic == profilePic;
+  
+    return 
+      other.email == email &&
+      other.name == name &&
+      other.profilePic == profilePic;
   }
 
   @override

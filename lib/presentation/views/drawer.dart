@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/utils/others/nav.dart';
-import 'package:notes_app/logic/bloc/notes_bloc.dart';
-import 'package:notes_app/logic/bloc/notes_state.dart';
+import 'package:notes_app/logic/user_bloc/user_bloc.dart';
+import 'package:notes_app/logic/user_bloc/user_state.dart';
 import 'package:notes_app/presentation/pages/online_backup_page.dart';
 
 class Kdrawer extends StatefulWidget {
@@ -22,7 +22,7 @@ class _KdrawerState extends State<Kdrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotesBloc, NotesState>(
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         return Drawer(
           child: ListView(
@@ -31,10 +31,9 @@ class _KdrawerState extends State<Kdrawer> {
                   stream: FirebaseAuth.instance.authStateChanges(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      final user = snapshot.data;
                       return UserAccountsDrawerHeader(
-                        accountName: Text('${user!.displayName}'),
-                        accountEmail: Text('${user.email}'),
+                        accountName: const Text('Implement'),
+                        accountEmail: Text(state.user.email),
                         currentAccountPicture: const CircleAvatar(),
                         onDetailsPressed: () {
                           kNavigation(context, const OnlineBackUp());
@@ -44,7 +43,8 @@ class _KdrawerState extends State<Kdrawer> {
                     return UserAccountsDrawerHeader(
                       accountName: const Text('. . .'),
                       accountEmail: const Text('Not Signed in'),
-                      currentAccountPicture: const CircleAvatar(),
+                      currentAccountPicture: CircleAvatar(
+                          backgroundImage: NetworkImage(state.user.profilePic)),
                       onDetailsPressed: () {
                         kNavigation(context, const OnlineBackUp());
                       },

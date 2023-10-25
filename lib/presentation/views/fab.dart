@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/utils/others/nav.dart';
-import 'package:notes_app/logic/bloc/notes_bloc.dart';
-import 'package:notes_app/logic/bloc/notes_event.dart';
-import 'package:notes_app/logic/bloc/notes_state.dart';
+import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
+import 'package:notes_app/logic/notes_bloc/notes_event.dart';
+import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 import 'package:notes_app/presentation/pages/add_new_note.dart';
 
 class KfloatingActionButton extends StatelessWidget {

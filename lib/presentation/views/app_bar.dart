@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/logic/bloc/notes_bloc.dart';
-import 'package:notes_app/logic/bloc/notes_event.dart';
-import 'package:notes_app/logic/bloc/notes_state.dart';
+import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
+import 'package:notes_app/logic/notes_bloc/notes_event.dart';
+import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 
 class KappBar extends StatelessWidget implements PreferredSizeWidget {
   const KappBar({super.key});
