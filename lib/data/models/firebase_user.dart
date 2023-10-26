@@ -4,23 +4,19 @@ import 'dart:convert';
 class FirebaseUser {
   final String email;
   final String name;
-  final String profilePic;
 
   FirebaseUser({
     required this.email,
     required this.name,
-    required this.profilePic
   });
 
   FirebaseUser copyWith({
     String? email,
     String? name,
-    String? profilePic,
   }) {
     return FirebaseUser(
       email: email ?? this.email,
       name: name ?? this.name,
-      profilePic: profilePic ?? this.profilePic,
     );
   }
 
@@ -28,7 +24,6 @@ class FirebaseUser {
     return <String, dynamic>{
       'email': email,
       'name': name,
-      'profilePic': profilePic,
     };
   }
 
@@ -36,7 +31,6 @@ class FirebaseUser {
     return FirebaseUser(
       email: map['email'] as String,
       name: map['name'] as String,
-      profilePic: map['profilePic'] as String,
     );
   }
 
@@ -46,7 +40,7 @@ class FirebaseUser {
       FirebaseUser.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'FirebaseUser(email: $email, name: $name, profilePic: $profilePic)';
+  String toString() => 'FirebaseUser(email: $email, name: $name)';
 
   @override
   bool operator ==(covariant FirebaseUser other) {
@@ -54,10 +48,9 @@ class FirebaseUser {
   
     return 
       other.email == email &&
-      other.name == name &&
-      other.profilePic == profilePic;
+      other.name == name;
   }
 
   @override
-  int get hashCode => email.hashCode ^ name.hashCode ^ profilePic.hashCode;
+  int get hashCode => email.hashCode ^ name.hashCode;
 }

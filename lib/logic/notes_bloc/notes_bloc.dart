@@ -1,10 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
+import 'package:notes_app/data/repositories/note_repository.dart';
 import 'package:notes_app/logic/notes_bloc/notes_event.dart';
 import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
+  final NotesRepository notesRepository = NotesRepository();
+
   NotesBloc() : super(const NotesState()) {
     on<AppStartedEvent>((event, emit) async {
       emit(
@@ -21,9 +24,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     });
 
     on<AddNewNoteEvent>((event, emit) async {
-      emit(
-        state.copyWith(status: NoteStatus.loading),
-      );
+      emit(state.copyWith(status: NoteStatus.loading));
+      emit(state.copyWith(status: NoteStatus.added));
       try {
         List<Note> temp = [];
         temp.addAll(state.notes);
@@ -38,9 +40,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     });
 
     on<DeleteNoteEvent>((event, emit) async {
-      emit(
-        state.copyWith(status: NoteStatus.loading),
-      );
+      emit(state.copyWith(status: NoteStatus.loading));
+      emit(state.copyWith(status: NoteStatus.removed));
       try {
         state.notes.remove(event.note);
 
@@ -62,7 +63,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<DeleteSelectedNotesEvent>((event, emit) async {
       final List<int> selectedIndices = state.selectedIndices.toList();
       List<Note> updatedNotes = List.from(state.notes);
-
+      emit(state.copyWith(status: NoteStatus.loading));
+      emit(state.copyWith(status: NoteStatus.removed));
       try {
         // Sort the selectedIndices in descending order to avoid index shifting issues
         selectedIndices.sort((a, b) => b.compareTo(a));
@@ -90,6 +92,10 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
     on<EditNoteEvent>((event, emit) async {
       emit(state.copyWith(status: NoteStatus.loading));
+      emit(state.copyWith(status: NoteStatus.edited));
+      emit(
+        state.copyWith(status: NoteStatus.removed),
+      );
       try {
         List<Note>? updatedNotes = List.from(state.notes);
         if (event.index >= 0 && event.index < updatedNotes.length) {
@@ -151,5 +157,18 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<ClearSelectionEvent>((event, emit) async {
       emit(state.copyWith(selectedIndices: [])); // Clear the selected indices
     });
+
+    //! ------------------------------------ !\\
+
+    on<AddUserNotesEvent>((event, emit) async {
+      await notesRepository.addNote(event.note);
+    });
+
+    on<RetrieveUserNotesEvent>((event, emit) async {
+      final userNotes = await notesRepository.retrieveUserNotes(event.id);
+      state.notes.addAll(userNotes);
+    });
+
+    on<RealTimeSyncEvent>((event, emit) async {});
   }
 }

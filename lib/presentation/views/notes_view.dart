@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
+import 'package:notes_app/data/utils/auth_utils/snakbar.dart';
 import 'package:notes_app/data/utils/others/custom_page_route_transition.dart';
 import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
 import 'package:notes_app/logic/notes_bloc/notes_event.dart';
@@ -36,7 +37,7 @@ class _NotesViewState extends State<NotesView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotesBloc, NotesState>(
+    return BlocConsumer<NotesBloc, NotesState>(
       builder: (context, state) {
         if (state.status == NoteStatus.initial) {
           return const Center(
@@ -49,7 +50,7 @@ class _NotesViewState extends State<NotesView> {
         } else if (state.status == NoteStatus.success) {
           return RefreshIndicator(
             onRefresh: () async {
-              return await refreshPage();
+              await refreshPage();
             },
             child: ListView.builder(
               itemCount: state.notes.length,
@@ -94,6 +95,16 @@ class _NotesViewState extends State<NotesView> {
               )
             ],
           );
+        }
+      },
+      listener: (context, state) {
+        if (state.status == NoteStatus.added) {
+          ScaffoldMessenger.of(context).showSnackBar(kSnackBar('note added'));
+        } else if (state.status == NoteStatus.removed) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(kSnackBar('note(s) removed'));
+        } else if (state.status == NoteStatus.edited) {
+          ScaffoldMessenger.of(context).showSnackBar(kSnackBar('saved'));
         }
       },
     );

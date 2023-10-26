@@ -77,3 +77,27 @@ class DeSelectNoteEvent extends NotesEvent {
 }
 
 class ClearSelectionEvent extends NotesEvent {}
+
+//! database events
+
+class AddUserNotesEvent extends NotesEvent {
+  final Note note;
+
+  const AddUserNotesEvent({required this.note});
+
+  @override
+  List<Object?> get props => [note];
+}
+
+class RetrieveUserNotesEvent extends NotesEvent {
+  final String id;
+  const RetrieveUserNotesEvent({required this.id});
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class RealTimeSyncEvent extends NotesEvent {
+  @override
+  List<Object?> get props => [];
+}

@@ -11,17 +11,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           UserState(
               id: '',
               user: FirebaseUser(
-                  email: 'No email',
-                  name: 'No name',
-                  profilePic: 'No profile pic')),
+                email: 'No email',
+                name: 'No name',
+              )),
         ) {
     on<AddUserToDatabaseEvent>((event, emit) async {
       DocumentReference response = await _firestore.collection('users').add(
             FirebaseUser(
-                    email: event.email,
-                    name: 'No name',
-                    profilePic: 'http://www.gravatar.com/avatar/?d=mp')
-                .toMap(),
+              email: event.email,
+              name: 'No name',
+            ).toMap(),
           );
       DocumentSnapshot snapshot = await response.get();
       emit(
@@ -56,7 +55,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           user: FirebaseUser(
             email: 'No email',
             name: 'No name',
-            profilePic: 'No profile pic',
           ),
         ),
       );

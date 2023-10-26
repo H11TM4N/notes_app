@@ -50,8 +50,7 @@ class _KdrawerState extends State<Kdrawer> {
                     return UserAccountsDrawerHeader(
                       accountName: const Text('. . .'),
                       accountEmail: const Text('Not Signed in'),
-                      currentAccountPicture: CircleAvatar(
-                          backgroundImage: NetworkImage(state.user.profilePic)),
+                      currentAccountPicture: const CircleAvatar(),
                       onDetailsPressed: () {
                         kNavigation(context, const OnlineBackUp());
                       },
