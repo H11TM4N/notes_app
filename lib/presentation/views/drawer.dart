@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/utils/others/nav.dart';
 import 'package:notes_app/logic/user_bloc/user_bloc.dart';
+import 'package:notes_app/logic/user_bloc/user_event.dart';
 import 'package:notes_app/logic/user_bloc/user_state.dart';
 import 'package:notes_app/presentation/pages/online_backup_page.dart';
+import 'package:notes_app/presentation/pages/settings/settings_page.dart';
 
 class Kdrawer extends StatefulWidget {
   const Kdrawer({super.key});
@@ -20,6 +22,10 @@ class _KdrawerState extends State<Kdrawer> {
   bool _dummySwitch = false;
   bool _dummySwitch2 = false;
 
+  login(String email) {
+    context.read<UserBloc>().add(RetrieveUserInfoEvent(email: email));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
@@ -31,8 +37,9 @@ class _KdrawerState extends State<Kdrawer> {
                   stream: FirebaseAuth.instance.authStateChanges(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+                      login(snapshot.data!.email!);
                       return UserAccountsDrawerHeader(
-                        accountName: const Text('Implement'),
+                        accountName: Text(state.user.name),
                         accountEmail: Text(state.user.email),
                         currentAccountPicture: const CircleAvatar(),
                         onDetailsPressed: () {
@@ -88,6 +95,19 @@ class _KdrawerState extends State<Kdrawer> {
                       leading: const Icon(Icons.archive),
                       title: const Text('Archive'),
                       onTap: () {},
+                    ),
+                  ],
+                ),
+              ),
+              DrawerHeader(
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.settings),
+                      title: const Text('Settings'),
+                      onTap: () {
+                        kNavigation(context, const SettingPage());
+                      },
                     ),
                   ],
                 ),

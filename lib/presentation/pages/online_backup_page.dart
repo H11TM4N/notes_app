@@ -2,7 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/data/repositories/shared_preferences_repositories/auth_service.dart';
+import 'package:notes_app/data/repositories/auth_service.dart';
 import 'package:notes_app/data/utils/auth_utils/show_loading_dialog.dart';
 import 'package:notes_app/data/utils/auth_utils/snakbar.dart';
 import 'package:notes_app/data/utils/others/nav.dart';

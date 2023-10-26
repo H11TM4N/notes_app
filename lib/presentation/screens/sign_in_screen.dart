@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/data/repositories/shared_preferences_repositories/auth_service.dart';
+import 'package:notes_app/data/repositories/auth_service.dart';
 import 'package:notes_app/data/utils/auth_utils/show_loading_dialog.dart';
 import 'package:notes_app/data/utils/auth_utils/snakbar.dart';
 import 'package:notes_app/data/utils/others/custom_page_route_transition.dart';

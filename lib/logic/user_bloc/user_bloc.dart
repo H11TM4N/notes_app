@@ -15,7 +15,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
                   name: 'No name',
                   profilePic: 'No profile pic')),
         ) {
-
     on<AddUserToDatabaseEvent>((event, emit) async {
       DocumentReference response = await _firestore.collection('users').add(
             FirebaseUser(
@@ -61,6 +60,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           ),
         ),
       );
+    });
+
+    on<UpdateUserNameEvent>((event, emit) async {
+      await _firestore
+          .collection('users')
+          .doc(state.id)
+          .update({'name': event.newName});
+      emit(state.copyWith(
+        user: state.user.copyWith(name: event.newName),
+      ));
     });
   }
 }

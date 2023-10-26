@@ -15,7 +15,7 @@ class KtextField extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextField(
         controller: controller,
-        obscureText: true,
+        obscureText: false,
         decoration: InputDecoration(
           hintText: hintText,
           labelStyle: const TextStyle(color: Colors.white),
