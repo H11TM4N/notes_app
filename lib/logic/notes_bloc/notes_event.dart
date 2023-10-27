@@ -89,12 +89,37 @@ class AddUserNotesEvent extends NotesEvent {
   List<Object?> get props => [note];
 }
 
-class RetrieveUserNotesEvent extends NotesEvent {
-  final String id;
-  const RetrieveUserNotesEvent({required this.id});
+class DeleteUserNoteEvent extends NotesEvent {
+  final Note note;
+
+  const DeleteUserNoteEvent({required this.note});
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [note];
+}
+
+class DeleteSelectedUserNotesEvent extends NotesEvent {
+  final List<String> selectedNotes;
+  const DeleteSelectedUserNotesEvent({required this.selectedNotes});
+
+  @override
+  List<Object?> get props => [selectedNotes];
+}
+
+class UpdateUserNotesEvent extends NotesEvent {
+  final Note note;
+  const UpdateUserNotesEvent({required this.note});
+
+  @override
+  List<Object?> get props => [note];
+}
+
+class RetrieveUserNotesEvent extends NotesEvent {
+  
+  const RetrieveUserNotesEvent();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class RealTimeSyncEvent extends NotesEvent {

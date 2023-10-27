@@ -30,8 +30,13 @@ class _EditNotePageState extends State<EditNotePage> {
         .add(EditNoteEvent(index: index, updatedNote: updatedNote));
   }
 
+  updateNote(Note updatedNote) {
+    context.read<NotesBloc>().add(UpdateUserNotesEvent(note: updatedNote));
+  }
+
   deleteNote(Note note) {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
+    context.read<NotesBloc>().add(DeleteUserNoteEvent(note: note));
   }
 
   @override
@@ -48,13 +53,6 @@ class _EditNotePageState extends State<EditNotePage> {
               leading: state.readOnly
                   ? IconButton(
                       onPressed: () {
-                        editNote(
-                          widget.index,
-                          Note(
-                            title: titleController.text,
-                            content: notesController.text,
-                          ),
-                        );
                         Navigator.pop(context);
                       },
                       icon: const Icon(Icons.arrow_back),
@@ -67,6 +65,12 @@ class _EditNotePageState extends State<EditNotePage> {
                         } else {
                           editNote(
                             widget.index,
+                            Note(
+                              title: titleController.text,
+                              content: notesController.text,
+                            ),
+                          );
+                          updateNote(
                             Note(
                               title: titleController.text,
                               content: notesController.text,

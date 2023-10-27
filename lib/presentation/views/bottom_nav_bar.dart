@@ -13,15 +13,27 @@ class KbottomNavBar extends StatelessWidget {
       context.read<NotesBloc>().add(DeleteSelectedNotesEvent());
     }
 
+    deleteNotesFromDatabase(List<String> selectedNotes) {
+      context
+          .read<NotesBloc>()
+          .add(DeleteSelectedUserNotesEvent(selectedNotes: selectedNotes));
+    }
+
     return BlocBuilder<NotesBloc, NotesState>(
       builder: (context, state) {
         if (state.selectedIndices.isNotEmpty) {
+          final selectedNoteIds = state.selectedIndices.map((index) {
+            return state.notes[index]
+                .id; // Assuming 'id' is the field that uniquely identifies each note.
+          }).toList();
+
           return BottomAppBar(
             child: Row(
               children: [
                 IconButton(
                   onPressed: () {
                     deleteNotes();
+                    deleteNotesFromDatabase(selectedNoteIds as List<String>);
                   },
                   icon: const Icon(Icons.delete),
                 ),

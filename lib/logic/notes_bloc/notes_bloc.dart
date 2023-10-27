@@ -15,7 +15,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       );
       try {
         emit(state.copyWith(
-          notes: [],
+          notes: await notesRepository.retrieveUserNotes() + state.notes,
           status: NoteStatus.success,
         ));
       } catch (e) {
@@ -93,9 +93,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<EditNoteEvent>((event, emit) async {
       emit(state.copyWith(status: NoteStatus.loading));
       emit(state.copyWith(status: NoteStatus.edited));
-      emit(
-        state.copyWith(status: NoteStatus.removed),
-      );
       try {
         List<Note>? updatedNotes = List.from(state.notes);
         if (event.index >= 0 && event.index < updatedNotes.length) {
@@ -158,17 +155,31 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       emit(state.copyWith(selectedIndices: [])); // Clear the selected indices
     });
 
-    //! ------------------------------------ !\\
+    //! ---------------on Database events------------------ !\\
 
     on<AddUserNotesEvent>((event, emit) async {
       await notesRepository.addNote(event.note);
     });
 
+    on<DeleteUserNoteEvent>((event, emit) async {
+      await notesRepository.deleteNote(event.note);
+    });
+
+    on<DeleteSelectedUserNotesEvent>((event, emit) async {
+      await notesRepository.deleteSelectedNotes(event.selectedNotes);
+    });
+
+    on<UpdateUserNotesEvent>((event, emit) async {
+      await notesRepository.updateNote(event.note);
+    });
+
     on<RetrieveUserNotesEvent>((event, emit) async {
-      final userNotes = await notesRepository.retrieveUserNotes(event.id);
+      final userNotes = await notesRepository.retrieveUserNotes();
       state.notes.addAll(userNotes);
     });
 
-    on<RealTimeSyncEvent>((event, emit) async {});
+    on<RealTimeSyncEvent>((event, emit) async {
+      // TODO: implement
+    });
   }
 }

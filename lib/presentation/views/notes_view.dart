@@ -33,6 +33,7 @@ class _NotesViewState extends State<NotesView> {
 
   deleteNote(Note note) {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
+    context.read<NotesBloc>().add(DeleteUserNoteEvent(note: note));
   }
 
   @override
