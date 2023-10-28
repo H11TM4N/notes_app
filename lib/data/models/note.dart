@@ -2,18 +2,18 @@ import 'dart:convert';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class Note {
-  final int id;
+  final String id;
   final String title;
   final String? content;
 
   Note({
-    this.id = 0,
+    this.id = '',
     required this.title,
     required this.content,
   });
 
   Note copyWith({
-    int? id,
+    String? id,
     String? title,
     String? content,
   }) {
@@ -34,7 +34,7 @@ class Note {
 
   factory Note.fromMap(Map<String, dynamic> map) {
     return Note(
-      id: map['id'] as int,
+      id: map['id'] as String,
       title: map['title'] as String,
       content: map['content'] != null ? map['content'] as String : null,
     );
@@ -42,7 +42,8 @@ class Note {
 
   String toJson() => json.encode(toMap());
 
-  factory Note.fromJson(String source) => Note.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Note.fromJson(String source) =>
+      Note.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'Note(id: $id, title: $title, content: $content)';

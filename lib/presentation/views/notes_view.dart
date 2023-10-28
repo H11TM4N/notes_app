@@ -33,6 +33,9 @@ class _NotesViewState extends State<NotesView> {
 
   deleteNote(Note note) {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
+  }
+
+  deleteNoteFromDB(Note note) {
     context.read<NotesBloc>().add(DeleteUserNoteEvent(note: note));
   }
 
@@ -61,7 +64,10 @@ class _NotesViewState extends State<NotesView> {
                     selectNote(index);
                   },
                   child: KslidableWidget(
-                    onDelete: (_) => deleteNote(state.notes[index]),
+                    onDelete: (_) {
+                      deleteNote(state.notes[index]);
+                      deleteNoteFromDB(state.notes[index]);
+                    },
                     child: KListTile(
                       title: state.notes[index].title,
                       onTap: () {

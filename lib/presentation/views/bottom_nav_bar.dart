@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/data/models/note.dart';
 import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
 import 'package:notes_app/logic/notes_bloc/notes_event.dart';
 import 'package:notes_app/logic/notes_bloc/notes_state.dart';
@@ -13,7 +14,7 @@ class KbottomNavBar extends StatelessWidget {
       context.read<NotesBloc>().add(DeleteSelectedNotesEvent());
     }
 
-    deleteNotesFromDatabase(List<String> selectedNotes) {
+    deleteNotesFromDatabase(List<Note> selectedNotes) {
       context
           .read<NotesBloc>()
           .add(DeleteSelectedUserNotesEvent(selectedNotes: selectedNotes));
@@ -22,9 +23,8 @@ class KbottomNavBar extends StatelessWidget {
     return BlocBuilder<NotesBloc, NotesState>(
       builder: (context, state) {
         if (state.selectedIndices.isNotEmpty) {
-          final selectedNoteIds = state.selectedIndices.map((index) {
-            return state.notes[index]
-                .id; // Assuming 'id' is the field that uniquely identifies each note.
+          final selectedNotes = state.selectedIndices.map((index) {
+            return state.notes[index];
           }).toList();
 
           return BottomAppBar(
@@ -33,7 +33,7 @@ class KbottomNavBar extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     deleteNotes();
-                    deleteNotesFromDatabase(selectedNoteIds as List<String>);
+                    deleteNotesFromDatabase(selectedNotes);
                   },
                   icon: const Icon(Icons.delete),
                 ),

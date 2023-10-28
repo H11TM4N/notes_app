@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/data/repositories/note_repository.dart';
+import 'package:notes_app/data/repositories/firestore_service.dart';
 import 'package:notes_app/logic/notes_bloc/notes_event.dart';
 import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
-  final NotesRepository notesRepository = NotesRepository();
+  final FirestoreService firestoreService = FirestoreService();
 
   NotesBloc() : super(const NotesState()) {
     on<AppStartedEvent>((event, emit) async {
@@ -15,11 +15,11 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       );
       try {
         emit(state.copyWith(
-          notes: await notesRepository.retrieveUserNotes() + state.notes,
+          notes: await firestoreService.retrieveUserNotes(),
           status: NoteStatus.success,
         ));
       } catch (e) {
-        emit(state.copyWith(status: NoteStatus.error));
+        emit(state.copyWith(status: NoteStatus.initial));
       }
     });
 
@@ -64,7 +64,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       final List<int> selectedIndices = state.selectedIndices.toList();
       List<Note> updatedNotes = List.from(state.notes);
       emit(state.copyWith(status: NoteStatus.loading));
-      emit(state.copyWith(status: NoteStatus.removed));
       try {
         // Sort the selectedIndices in descending order to avoid index shifting issues
         selectedIndices.sort((a, b) => b.compareTo(a));
@@ -158,24 +157,23 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     //! ---------------on Database events------------------ !\\
 
     on<AddUserNotesEvent>((event, emit) async {
-      await notesRepository.addNote(event.note);
+      await firestoreService.addNote(event.note);
     });
 
     on<DeleteUserNoteEvent>((event, emit) async {
-      await notesRepository.deleteNote(event.note);
+      await firestoreService.deleteNote(event.note);
     });
 
     on<DeleteSelectedUserNotesEvent>((event, emit) async {
-      await notesRepository.deleteSelectedNotes(event.selectedNotes);
+      await firestoreService.deleteSelectedNotes(event.selectedNotes);
     });
 
     on<UpdateUserNotesEvent>((event, emit) async {
-      await notesRepository.updateNote(event.note);
+      await firestoreService.updateNote(event.note, event.updatedNote);
     });
 
     on<RetrieveUserNotesEvent>((event, emit) async {
-      final userNotes = await notesRepository.retrieveUserNotes();
-      state.notes.addAll(userNotes);
+      firestoreService.retrieveUserNotes();
     });
 
     on<RealTimeSyncEvent>((event, emit) async {

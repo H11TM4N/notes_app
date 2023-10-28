@@ -30,12 +30,15 @@ class _EditNotePageState extends State<EditNotePage> {
         .add(EditNoteEvent(index: index, updatedNote: updatedNote));
   }
 
-  updateNote(Note updatedNote) {
-    context.read<NotesBloc>().add(UpdateUserNotesEvent(note: updatedNote));
+  updateNote(Note note, Note updatedNote) {
+    context.read<NotesBloc>().add(UpdateUserNotesEvent(note: note, updatedNote: updatedNote));
   }
 
   deleteNote(Note note) {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
+  }
+
+  deleteNoteFromDB(Note note) {
     context.read<NotesBloc>().add(DeleteUserNoteEvent(note: note));
   }
 
@@ -72,6 +75,10 @@ class _EditNotePageState extends State<EditNotePage> {
                           );
                           updateNote(
                             Note(
+                              title: state.notes[widget.index].title,
+                              content: state.notes[widget.index].content,
+                            ),
+                            Note(
                               title: titleController.text,
                               content: notesController.text,
                             ),
@@ -102,6 +109,7 @@ class _EditNotePageState extends State<EditNotePage> {
                   onTap: () {
                     Navigator.popUntil(context, (route) => route.isFirst);
                     deleteNote(state.notes[widget.index]);
+                    deleteNoteFromDB(state.notes[widget.index]);
                   },
                 ),
               ],

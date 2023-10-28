@@ -99,7 +99,7 @@ class DeleteUserNoteEvent extends NotesEvent {
 }
 
 class DeleteSelectedUserNotesEvent extends NotesEvent {
-  final List<String> selectedNotes;
+  final List<Note> selectedNotes;
   const DeleteSelectedUserNotesEvent({required this.selectedNotes});
 
   @override
@@ -107,15 +107,15 @@ class DeleteSelectedUserNotesEvent extends NotesEvent {
 }
 
 class UpdateUserNotesEvent extends NotesEvent {
+  final Note updatedNote;
   final Note note;
-  const UpdateUserNotesEvent({required this.note});
+  const UpdateUserNotesEvent({required this.note, required this.updatedNote});
 
   @override
   List<Object?> get props => [note];
 }
 
 class RetrieveUserNotesEvent extends NotesEvent {
-  
   const RetrieveUserNotesEvent();
 
   @override
