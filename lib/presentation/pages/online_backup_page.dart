@@ -6,6 +6,8 @@ import 'package:notes_app/data/repositories/auth_service.dart';
 import 'package:notes_app/data/utils/auth_utils/show_loading_dialog.dart';
 import 'package:notes_app/data/utils/auth_utils/snakbar.dart';
 import 'package:notes_app/data/utils/others/nav.dart';
+import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
+import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 import 'package:notes_app/logic/user_bloc/user_bloc.dart';
 import 'package:notes_app/logic/user_bloc/user_event.dart';
 import 'package:notes_app/logic/user_bloc/user_state.dart';
@@ -64,7 +66,11 @@ class OnlineBackUp extends StatelessWidget {
                       const Text('Email:'),
                       Text(state.user.email),
                       const SizedBox(height: 15),
-                      const Text('Synced notes: 19')
+                      BlocBuilder<NotesBloc, NotesState>(
+                        builder: (context, state) {
+                          return Text('Synced notes: ${state.notes.length}');
+                        },
+                      )
                     ],
                   ),
                 ),

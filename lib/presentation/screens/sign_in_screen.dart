@@ -29,7 +29,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final RegExp _emailValid =
       RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final AuthServiceRepository _authServise = AuthServiceRepository();
-  
+
   _retrieveUserInfo(String email) {
     context.read<UserBloc>().add(RetrieveUserInfoEvent(email: email));
   }
@@ -80,8 +80,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       onPressed: () {
                         setState(() {
-                          _obscureText =
-                              !_obscureText; // Toggle the obscure text state
+                          _obscureText = !_obscureText;
                         });
                       },
                     ),

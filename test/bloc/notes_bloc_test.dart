@@ -1,54 +1,48 @@
-// import 'package:flutter/widgets.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:notes_app/data/repositories/shared_prefs_repo.dart';
-// import 'package:notes_app/logic/bloc/notes_bloc.dart';
-// import 'package:notes_app/logic/bloc/notes_state.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:bloc_test/bloc_test.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:notes_app/data/constants/enums.dart';
+import 'package:notes_app/data/models/note.dart';
 
-// void main() {
-//   group('NotesBloc Tests', () {
-//     late NotesBloc notesBloc;
-//     late SharedPreferencesRepository sharedPreferencesRepository;
-//     late SharedPreferences prefs;
+import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
+import 'package:notes_app/logic/notes_bloc/notes_event.dart';
+import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 
-//     // Wrap your test setup inside `testWidgets` and provide the async callback.
-//     testWidgets('Initialize NotesBloc and SharedPreferences', (WidgetTester tester) async {
-//       WidgetsFlutterBinding.ensureInitialized(); // EnsureInitialized within testWidgets
+void main() {
+  group('NotesBloc', () {
+    late NotesBloc notesBloc;
 
-//       prefs = await SharedPreferences.getInstance();
-//       sharedPreferencesRepository = SharedPreferencesRepository(prefs);
-//       notesBloc = NotesBloc(sharedPreferencesRepository: sharedPreferencesRepository);
-//     });
+    setUp(() {
+      notesBloc = NotesBloc();
+    });
 
-//     test('Initial state of NotesBloc is NotesState()', () {
-//       expect(notesBloc.state, const NotesState());
-//     });
+    tearDown(() {
+      notesBloc.close();
+    });
 
-//     blocTest(
-//       'description',
-//       build: () => notesBloc,
-//       act: (bloc) {},
-//       expect: () {},
-//     );
+    blocTest<NotesBloc, NotesState>(
+      'emits NotesState with loading and success when AppStartedEvent is added',
+      build: () => notesBloc,
+      act: (bloc) => bloc.add(AppStartedEvent()),
+      expect: () => [
+        const NotesState(status: NoteStatus.loading),
+        const NotesState(notes: [], status: NoteStatus.success),
+      ],
+    );
 
-//     blocTest(
-//       'description',
-//       build: () => notesBloc,
-//       act: (bloc) {},
-//       expect: () {},
-//     );
+    blocTest<NotesBloc, NotesState>(
+      'emits NotesState with loading and added when AddNewNoteEvent is added',
+      build: () => notesBloc,
+      act: (bloc) =>
+          bloc.add(AddNewNoteEvent(note: Note(content: '', title: '', id: ''))),
+      expect: () => [
+        const NotesState(status: NoteStatus.loading),
+        const NotesState(status: NoteStatus.added),
+        const NotesState(
+            notes: [/* assert that the note you added is here */],
+            status: NoteStatus.success),
+      ],
+    );
 
-//     blocTest(
-//       'description',
-//       build: () => notesBloc,
-//       act: (bloc) {},
-//       expect: () {},
-//     );
-
-//     // Dispose of resources when tests are done.
-//     tearDown(() {
-//       notesBloc.close();
-//     });
-//   });
-// }
+    // Add more tests for other events and scenarios
+  });
+}
