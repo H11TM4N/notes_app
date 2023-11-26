@@ -110,7 +110,15 @@ class _KdrawerState extends State<Kdrawer> {
                     ),
                   ],
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: SwitchListTile(
+                  title: const Text('dark mode'),
+                  value: false,
+                  onChanged: (value) {},
+                ),
+              ),
             ],
           ),
         );
