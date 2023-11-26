@@ -37,7 +37,9 @@ class _AddNotePageState extends State<AddNotePage> {
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
+            backgroundColor: Theme.of(context).colorScheme.background,
             appBar: AppBar(
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               leading: state.readOnly
                   ? IconButton(
                       onPressed: () {
@@ -98,6 +100,7 @@ class _AddNotePageState extends State<AddNotePage> {
                       const InputDecoration(hintText: 'Enter your note'),
                   expands: true,
                   readOnly: state.readOnly,
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
             ),

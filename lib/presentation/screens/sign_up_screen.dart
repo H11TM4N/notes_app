@@ -37,17 +37,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
             title: const Text('Sign up Screen'),
           ),
+          backgroundColor: Theme.of(context).colorScheme.background,
           body: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Sign up',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                ),
                 const SizedBox(height: 20),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),

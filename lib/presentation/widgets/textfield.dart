@@ -52,11 +52,14 @@ class KtextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       validator: validator,
+      style: TextStyle(color: Theme.of(context).colorScheme.primary),
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
         contentPadding: const EdgeInsets.all(25),
         filled: true,
+        fillColor: Colors.white,
         hintText: hintText,
+        hintStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
         border: const OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.all(

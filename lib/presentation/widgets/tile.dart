@@ -42,6 +42,7 @@ class KListTile extends StatelessWidget {
           ),
           onTap: onTap,
           tileColor: tileColor,
+          titleTextStyle: const TextStyle(color: Colors.white),
         ),
       ),
     );

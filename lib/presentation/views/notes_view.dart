@@ -85,7 +85,7 @@ class _NotesViewState extends State<NotesView> {
                       },
                       tileColor: state.selectedIndices.contains(index)
                           ? Colors.blue.withOpacity(0.5)
-                          : null,
+                          : Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                 );

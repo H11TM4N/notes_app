@@ -31,7 +31,9 @@ class _EditNotePageState extends State<EditNotePage> {
   }
 
   updateNote(Note note, Note updatedNote) {
-    context.read<NotesBloc>().add(UpdateUserNotesEvent(note: note, updatedNote: updatedNote));
+    context
+        .read<NotesBloc>()
+        .add(UpdateUserNotesEvent(note: note, updatedNote: updatedNote));
   }
 
   deleteNote(Note note) {
@@ -52,7 +54,9 @@ class _EditNotePageState extends State<EditNotePage> {
             TextEditingController(text: state.notes[widget.index].title);
         return SafeArea(
           child: Scaffold(
+            backgroundColor: Theme.of(context).colorScheme.background,
             appBar: AppBar(
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               leading: state.readOnly
                   ? IconButton(
                       onPressed: () {
@@ -126,6 +130,7 @@ class _EditNotePageState extends State<EditNotePage> {
                       const InputDecoration(hintText: 'Enter your note'),
                   expands: true,
                   readOnly: state.readOnly,
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
             ),

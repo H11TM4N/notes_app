@@ -30,14 +30,17 @@ class _SettingPageState extends State<SettingPage> {
             TextEditingController(text: state.user.name);
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
             title: const Text('Settings'),
           ),
+          backgroundColor: Theme.of(context).colorScheme.background,
           body: ListView(
             children: [
               ListTile(
                 title: const Text('Change display Name'),
                 onTap: () {
                   showModalBottomSheet(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                     context: context,
                     builder: (context) {
                       return Padding(

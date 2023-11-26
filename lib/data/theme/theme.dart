@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 
 class KthemeData {
   static ThemeData lightTheme = ThemeData.light().copyWith(
-    colorScheme: ColorScheme.light(
-      background: Colors.grey.shade100,
-      primary: Colors.grey.shade200,
-      secondary: Colors.grey.shade400,
+    colorScheme: const ColorScheme.light(
+      primary: Color(0xFF164863),
+      secondary: Color(0xFF427D9D),
+      background: Color(0xFFDDF2FD),
+    ),
+    useMaterial3: true,
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(fontSize: 17),
     ),
     snackBarTheme: const SnackBarThemeData(
       backgroundColor: Colors.black,
@@ -15,10 +19,11 @@ class KthemeData {
 
   static ThemeData darkTheme = ThemeData.dark().copyWith(
     colorScheme: ColorScheme.dark(
-      background: Colors.grey.shade600,
-      primary: Colors.grey.shade700,
-      secondary: Colors.grey.shade900,
+      primary: Colors.blueGrey.shade700,
+      secondary: Colors.blueGrey.shade900,
+      background: Colors.blueGrey.shade500,
     ),
+    useMaterial3: true,
     snackBarTheme: const SnackBarThemeData(
       backgroundColor: Color(0xFF79747E),
       contentTextStyle: TextStyle(color: Colors.white),

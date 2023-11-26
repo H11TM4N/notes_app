@@ -31,7 +31,10 @@ class OnlineBackUp extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Scaffold(
+                backgroundColor: Theme.of(context).colorScheme.background,
                 appBar: AppBar(
+                  elevation: 9,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
                   title: const Text('Online Sync'),
                   actions: [
                     PopupMenuButton(
@@ -78,8 +81,10 @@ class OnlineBackUp extends StatelessWidget {
             } else {
               return Scaffold(
                 appBar: AppBar(
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
                   title: const Text('Online Backup'),
                 ),
+                backgroundColor: Theme.of(context).colorScheme.background,
                 body: Center(
                   child: Column(
                     children: [

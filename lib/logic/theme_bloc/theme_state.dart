@@ -1,10 +1,18 @@
-part of 'theme_bloc.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
 
-sealed class ThemeState extends Equatable {
-  const ThemeState();
-  
+class ThemeState extends Equatable {
+  final bool isDarkMode;
+  const ThemeState({required this.isDarkMode});
+
   @override
-  List<Object> get props => [];
-}
+  List<Object?> get props => [isDarkMode];
 
-final class ThemeInitial extends ThemeState {}
+  ThemeState copyWith({
+    bool? isDarkMode,
+  }) {
+    return ThemeState(
+      isDarkMode: isDarkMode ?? this.isDarkMode,
+    );
+  }
+}
