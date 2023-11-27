@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/data/utils/auth_utils/snakbar.dart';
 import 'package:notes_app/data/utils/others/custom_page_route_transition.dart';
+import 'package:notes_app/data/utils/others/utils.dart';
 import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
 import 'package:notes_app/logic/notes_bloc/notes_event.dart';
 import 'package:notes_app/logic/notes_bloc/notes_state.dart';
@@ -44,8 +45,21 @@ class _NotesViewState extends State<NotesView> {
     return BlocConsumer<NotesBloc, NotesState>(
       builder: (context, state) {
         if (state.status == NoteStatus.initial) {
-          return const Center(
-            child: Text('No notes added yet...'),
+          return Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 40),
+                Lottie.asset('assets/json/calendar.json'),
+                Text(
+                  'No notes added yet...',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
           );
         } else if (state.status == NoteStatus.loading) {
           return const Center(
@@ -106,12 +120,11 @@ class _NotesViewState extends State<NotesView> {
       },
       listener: (context, state) {
         if (state.status == NoteStatus.added) {
-          ScaffoldMessenger.of(context).showSnackBar(kSnackBar('note added'));
+          showSnackBar(context, 'Note added');
         } else if (state.status == NoteStatus.removed) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(kSnackBar('note(s) removed'));
+          showSnackBar(context, 'note(s) removed');
         } else if (state.status == NoteStatus.edited) {
-          ScaffoldMessenger.of(context).showSnackBar(kSnackBar('saved'));
+          showSnackBar(context, 'saved');
         }
       },
     );

@@ -4,7 +4,7 @@ import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
 import 'package:notes_app/logic/notes_bloc/notes_event.dart';
 import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 
-import '../../data/utils/others/nav.dart';
+import '../../data/utils/others/utils.dart';
 import '../pages/add_new_note.dart';
 
 class KappBar extends StatelessWidget implements PreferredSizeWidget {

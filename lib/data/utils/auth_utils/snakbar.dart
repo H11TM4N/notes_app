@@ -5,5 +5,6 @@ SnackBar kSnackBar(String text) {
     content: Text(text),
     behavior: SnackBarBehavior.floating,
     dismissDirection: DismissDirection.horizontal,
+    backgroundColor: Colors.grey.shade800,
   );
 }

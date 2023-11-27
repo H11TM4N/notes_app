@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/repositories/auth_service.dart';
 import 'package:notes_app/data/utils/auth_utils/show_loading_dialog.dart';
 import 'package:notes_app/data/utils/auth_utils/snakbar.dart';
-import 'package:notes_app/data/utils/others/nav.dart';
+import 'package:notes_app/data/utils/others/utils.dart';
 import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
 import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 import 'package:notes_app/logic/user_bloc/user_bloc.dart';
 import 'package:notes_app/logic/user_bloc/user_event.dart';
 import 'package:notes_app/logic/user_bloc/user_state.dart';
-import 'package:notes_app/presentation/screens/sign_in_screen.dart';
-import 'package:notes_app/presentation/screens/sign_up_screen.dart';
+import 'package:notes_app/presentation/auth/sign_in_screen.dart';
+import 'package:notes_app/presentation/auth/sign_up_screen.dart';
 
 class OnlineBackUp extends StatelessWidget {
   const OnlineBackUp({super.key});
