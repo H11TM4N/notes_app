@@ -23,7 +23,7 @@ Future<dynamic> showExitConfirmationDialog(BuildContext context) {
         title: const Text('Are you sure?'),
         content: const Text('Do you want to exit the app?'),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        actions: <Widget>[
+        actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context)

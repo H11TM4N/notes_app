@@ -107,14 +107,21 @@ class _NotesViewState extends State<NotesView> {
             ),
           );
         } else {
-          return Column(
-            children: [
-              const Text('An unexpected error occured'),
-              TextButton(
-                onPressed: () => refreshPage(),
-                child: const Text('refresh page'),
-              )
-            ],
+          return Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 40),
+                Lottie.asset('assets/json/error.json'),
+                Text(
+                  'An unexpected error occured...',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
           );
         }
       },

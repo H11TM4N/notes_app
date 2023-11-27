@@ -49,9 +49,15 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     });
 
     on<RetrieveUserNotesEvent>((event, emit) async {
-      firestoreService.retrieveUserNotes();
+      final res = firestoreService.retrieveUserNotes();
+      res.then((notes) {
+        if (notes.isEmpty) {
+          emit(state.copyWith(
+            status: NoteStatus.initial,
+          ));
+        }
+      });
     });
-
   }
 
   FutureOr<void> _clearSelection(event, emit) async {
@@ -126,7 +132,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     try {
       // Sort the selectedIndices in descending order to avoid index shifting issues
       selectedIndices.sort((a, b) => b.compareTo(a));
-  
+
       for (var index in selectedIndices) {
         updatedNotes.removeAt(index);
       }
@@ -153,7 +159,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(state.copyWith(status: NoteStatus.removed));
     try {
       state.notes.remove(event.note);
-  
+
       if (state.notes.isEmpty) {
         emit(state.copyWith(
           status: NoteStatus.initial,
@@ -190,6 +196,13 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       state.copyWith(status: NoteStatus.loading),
     );
     try {
+      if (state.notes.isEmpty) {
+        emit(
+          emit(state.copyWith(
+            status: NoteStatus.initial,
+          )),
+        );
+      }
       emit(state.copyWith(
         notes: await firestoreService.retrieveUserNotes(),
         status: NoteStatus.success,
