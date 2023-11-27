@@ -12,7 +12,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               id: '',
               user: FirebaseUser(
                 email: 'No email',
-                name: 'No name',
+                name: 'No name'
               )),
         ) {
     on<AddUserToDatabaseEvent>((event, emit) async {
