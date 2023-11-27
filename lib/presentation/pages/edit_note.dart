@@ -34,15 +34,12 @@ class _EditNotePageState extends State<EditNotePage> {
     context
         .read<NotesBloc>()
         .add(UpdateUserNotesEvent(note: note, updatedNote: updatedNote));
-  }
+  } //TODO: implement
 
   deleteNote(Note note) {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
   }
 
-  deleteNoteFromDB(Note note) {
-    context.read<NotesBloc>().add(DeleteUserNoteEvent(note: note));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +110,6 @@ class _EditNotePageState extends State<EditNotePage> {
                   onTap: () {
                     Navigator.popUntil(context, (route) => route.isFirst);
                     deleteNote(state.notes[widget.index]);
-                    deleteNoteFromDB(state.notes[widget.index]);
                   },
                 ),
               ],

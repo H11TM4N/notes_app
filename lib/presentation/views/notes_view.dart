@@ -35,11 +35,6 @@ class _NotesViewState extends State<NotesView> {
   deleteNote(Note note) {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
   }
-
-  deleteNoteFromDB(Note note) {
-    context.read<NotesBloc>().add(DeleteUserNoteEvent(note: note));
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<NotesBloc, NotesState>(
@@ -80,7 +75,6 @@ class _NotesViewState extends State<NotesView> {
                   child: KslidableWidget(
                     onDelete: (_) {
                       deleteNote(state.notes[index]);
-                      deleteNoteFromDB(state.notes[index]);
                     },
                     child: KListTile(
                       title: state.notes[index].title,

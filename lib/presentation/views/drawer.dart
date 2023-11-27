@@ -1,15 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/utils/others/utils.dart';
 import 'package:notes_app/logic/theme_bloc/theme_bloc.dart';
 import 'package:notes_app/logic/theme_bloc/theme_event.dart';
 import 'package:notes_app/logic/user_bloc/user_bloc.dart';
-import 'package:notes_app/logic/user_bloc/user_event.dart';
 import 'package:notes_app/logic/user_bloc/user_state.dart';
-import 'package:notes_app/presentation/pages/online_backup_page.dart';
 import 'package:notes_app/presentation/pages/settings/settings_page.dart';
 
 class Kdrawer extends StatefulWidget {
@@ -23,10 +18,6 @@ class _KdrawerState extends State<Kdrawer> {
   final bool _selected = false;
   bool _dummySwitch = false;
   bool _dummySwitch2 = false;
-
-  login(String email) {
-    context.read<UserBloc>().add(RetrieveUserInfoEvent(email: email));
-  }
 
   toggleTheme() {
     context.read<ThemeBloc>().add(const ToggleThemeEvent());
@@ -42,31 +33,15 @@ class _KdrawerState extends State<Kdrawer> {
           backgroundColor: Theme.of(context).colorScheme.background,
           child: ListView(
             children: [
-              StreamBuilder<User?>(
-                  stream: FirebaseAuth.instance.authStateChanges(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      login(snapshot.data!.email!);
-                      return UserAccountsDrawerHeader(
-                        accountName: Text(state.user.name),
-                        accountEmail: Text(state.user.email),
-                        currentAccountPicture: CircleAvatar(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.background),
-                        onDetailsPressed: () {
-                          kNavigation(context, const OnlineBackUp());
-                        },
-                      );
-                    }
-                    return UserAccountsDrawerHeader(
-                      accountName: const Text('. . .'),
-                      accountEmail: const Text('Not Signed in'),
-                      currentAccountPicture: const CircleAvatar(),
-                      onDetailsPressed: () {
-                        kNavigation(context, const OnlineBackUp());
-                      },
-                    );
-                  }),
+              UserAccountsDrawerHeader(
+                accountName: Text(state.user.name),
+                accountEmail: Text(state.user.name),
+                currentAccountPicture: CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.background),
+                onDetailsPressed: () {
+                  // kNavigation(context, const OnlineBackUp());
+                },
+              ),
               DrawerHeader(
                 child: Column(
                   children: [

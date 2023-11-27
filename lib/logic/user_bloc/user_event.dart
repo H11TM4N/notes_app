@@ -7,31 +7,6 @@ abstract class UserEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class AddUserToDatabaseEvent extends UserEvent {
-  final String email;
-
-  const AddUserToDatabaseEvent({required this.email});
-
-  @override
-  List<Object?> get props => [email];
-}
-
-class RetrieveUserInfoEvent extends UserEvent {
-  final String email;
-
-  const RetrieveUserInfoEvent({required this.email});
-
-  @override
-  List<Object?> get props => [email];
-}
-
-class ClearUserStateEvent extends UserEvent {
-  const ClearUserStateEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
 class UpdateUserNameEvent extends UserEvent {
   final String newName;
   const UpdateUserNameEvent({required this.newName});

@@ -28,7 +28,6 @@ class _AddNotePageState extends State<AddNotePage> {
 
   addNewNote(Note note) {
     context.read<NotesBloc>().add(AddNewNoteEvent(note: note));
-    context.read<NotesBloc>().add(AddUserNotesEvent(note: note));
   }
 
   @override

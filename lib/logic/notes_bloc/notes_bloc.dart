@@ -2,13 +2,10 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/data/repositories/firestore_service.dart';
 import 'package:notes_app/logic/notes_bloc/notes_event.dart';
 import 'package:notes_app/logic/notes_bloc/notes_state.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
-  final FirestoreService firestoreService = FirestoreService();
-
   NotesBloc() : super(const NotesState()) {
     on<AppStartedEvent>(_onAppStarted);
 
@@ -29,35 +26,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<DeSelectNoteEvent>(_deSelectNote);
 
     on<ClearSelectionEvent>(_clearSelection);
-
-    //! ---------------on Database events------------------ !\\
-
-    on<AddUserNotesEvent>((event, emit) async {
-      await firestoreService.addNote(event.note);
-    });
-
-    on<DeleteUserNoteEvent>((event, emit) async {
-      await firestoreService.deleteNote(event.note);
-    });
-
-    on<DeleteSelectedUserNotesEvent>((event, emit) async {
-      await firestoreService.deleteSelectedNotes(event.selectedNotes);
-    });
-
-    on<UpdateUserNotesEvent>((event, emit) async {
-      await firestoreService.updateNote(event.note, event.updatedNote);
-    });
-
-    on<RetrieveUserNotesEvent>((event, emit) async {
-      final res = firestoreService.retrieveUserNotes();
-      res.then((notes) {
-        if (notes.isEmpty) {
-          emit(state.copyWith(
-            status: NoteStatus.initial,
-          ));
-        }
-      });
-    });
   }
 
   FutureOr<void> _clearSelection(event, emit) async {
@@ -204,7 +172,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
         );
       }
       emit(state.copyWith(
-        notes: await firestoreService.retrieveUserNotes(),
         status: NoteStatus.success,
       ));
     } catch (e) {
