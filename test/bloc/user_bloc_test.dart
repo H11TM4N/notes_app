@@ -27,7 +27,7 @@ void main() {
     );
 
     blocTest<UserBloc, UserState>(
-      'emits [MyState] when MyEvent is added.',
+      'emits [UserState(user: User(name: "James"))] when UpdateUserNameEvent(newName: "James")  is added.',
       build: () => userBloc,
       seed: () => UserState(user: User(name: 'Jojo')),
       act: (bloc) => bloc.add(const UpdateUserNameEvent(newName: 'James')),
