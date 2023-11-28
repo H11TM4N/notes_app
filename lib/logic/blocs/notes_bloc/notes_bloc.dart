@@ -13,6 +13,40 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
     on<DeleteNoteEvent>(_deleteNote);
 
+    on<ArchiveNoteEvent>((event, emit) {
+      emit(state.copyWith(status: NoteStatus.loading));
+      if (event.index >= 0 && event.index < state.notes.length) {
+        var note = state.notes[event.index];
+        if (!note.isArchived) {
+          note = note.copyWith(isArchived: true);
+        } else {
+          note = note.copyWith(isArchived: false);
+        }
+        List<Note>? updatedNotes = List.from(state.notes);
+        updatedNotes[event.index] = note;
+        emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
+      } else {
+        emit(state.copyWith(status: NoteStatus.error));
+      }
+    });
+
+    on<StarNoteEvent>((event, emit) {
+      emit(state.copyWith(status: NoteStatus.loading));
+      if (event.index >= 0 && event.index < state.notes.length) {
+        var note = state.notes[event.index];
+        if (!note.isStarred) {
+          note = note.copyWith(isStarred: true);
+        } else {
+          note = note.copyWith(isStarred: false);
+        }
+        List<Note>? updatedNotes = List.from(state.notes);
+        updatedNotes[event.index] = note;
+        emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
+      } else {
+        emit(state.copyWith(status: NoteStatus.error));
+      }
+    });
+
     on<DeleteSelectedNotesEvent>(_deleteSelecedNotes);
 
     on<EditNoteEvent>(_editNote);

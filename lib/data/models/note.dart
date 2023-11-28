@@ -5,22 +5,30 @@ class Note {
   final String id;
   final String title;
   final String? content;
+  final bool isStarred;
+  final bool isArchived;
 
   Note({
     this.id = '',
     required this.title,
     required this.content,
+    this.isStarred = false,
+    this.isArchived = false,
   });
 
   Note copyWith({
     String? id,
     String? title,
     String? content,
+    bool? isStarred,
+    bool? isArchived,
   }) {
     return Note(
       id: id ?? this.id,
       title: title ?? this.title,
       content: content ?? this.content,
+      isStarred: isStarred ?? this.isStarred,
+      isArchived: isArchived ?? this.isArchived,
     );
   }
 
@@ -29,6 +37,8 @@ class Note {
       'id': id,
       'title': title,
       'content': content,
+      'isStarred': isStarred,
+      'isArchived': isArchived,
     };
   }
 
@@ -37,6 +47,8 @@ class Note {
       id: map['id'] as String,
       title: map['title'] as String,
       content: map['content'] != null ? map['content'] as String : null,
+      isStarred: map['isStarred'] as bool,
+      isArchived: map['isArchived'] as bool,
     );
   }
 
@@ -46,18 +58,27 @@ class Note {
       Note.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Note(id: $id, title: $title, content: $content)';
+  String toString() {
+    return 'Note(id: $id, title: $title, content: $content, isStarred: $isStarred, isArchived: $isArchived)';
+  }
 
   @override
   bool operator ==(covariant Note other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.title == title &&
-      other.content == content;
+
+    return other.id == id &&
+        other.title == title &&
+        other.content == content &&
+        other.isStarred == isStarred &&
+        other.isArchived == isArchived;
   }
 
   @override
-  int get hashCode => id.hashCode ^ title.hashCode ^ content.hashCode;
+  int get hashCode {
+    return id.hashCode ^
+        title.hashCode ^
+        content.hashCode ^
+        isStarred.hashCode ^
+        isArchived.hashCode;
+  }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:notes_app/logic/blocs/blocs.dart';
 
 class KslidableWidget extends StatelessWidget {
+  final int index;
   final Widget child;
   final void Function(BuildContext) onDelete;
   final void Function(BuildContext) onStar;
@@ -9,6 +12,7 @@ class KslidableWidget extends StatelessWidget {
 
   const KslidableWidget({
     super.key,
+    required this.index,
     required this.child,
     required this.onDelete,
     required this.onStar,
@@ -23,12 +27,19 @@ class KslidableWidget extends StatelessWidget {
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
           children: [
-            SlidableAction(
-              onPressed: onStar,
-              backgroundColor: Colors.blue.shade900,
-              icon: Icons.star_outline,
-              label: 'star',
-              padding: const EdgeInsets.all(5),
+            BlocBuilder<NotesBloc, NotesState>(
+              builder: (context, state) {
+                return SlidableAction(
+                  onPressed: onStar,
+                  backgroundColor: Colors.blue.shade900,
+                  icon: state.notes[index].isStarred
+                      ? Icons.star
+                      : Icons.star_outline,
+                  label: 'star',
+                  padding: const EdgeInsets.all(5),
+                  autoClose: false,
+                );
+              },
             ),
             const SizedBox(width: 2),
             SlidableAction(

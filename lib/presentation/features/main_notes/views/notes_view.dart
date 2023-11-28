@@ -32,9 +32,13 @@ class _NotesViewState extends State<NotesView> {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
   }
 
-  starNote(){}
+  starNote(int index) {
+    context.read<NotesBloc>().add(StarNoteEvent(index: index));
+  }
 
-  archiveNote(){}
+  toggleArchive(int index) {
+    context.read<NotesBloc>().add(ArchiveNoteEvent(index: index));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,36 +77,40 @@ class _NotesViewState extends State<NotesView> {
                   onLongPress: () {
                     selectNote(index);
                   },
-                  child: KslidableWidget(
-                    onDelete: (_) {
-                      deleteNote(state.notes[index]);
-                    },
-                    onStar: (_) {
-                      //TODO: Implement
-                    },
-                    onArchive: (_) {
-                      //TODO: Implement
-                    },
-                    child: KListTile(
-                      title: state.notes[index].title,
-                      onTap: () {
-                        if (state.selectedIndices.isNotEmpty) {
-                          deSelectNote(index);
-                        } else if (state.selectedIndices.contains(index)) {
-                          selectNote(index);
-                        } else {
-                          Navigator.push(
-                            context,
-                            MyCustomRouteTransition(
-                                route: EditNotePage(index: index)),
-                          );
-                        }
-                      },
-                      tileColor: state.selectedIndices.contains(index)
-                          ? Colors.blue.withOpacity(0.5)
-                          : Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
+                  child: !state.notes[index].isArchived
+                      ? KslidableWidget(
+                          index: index,
+                          onDelete: (_) {
+                            deleteNote(state.notes[index]);
+                          },
+                          onStar: (_) {
+                            starNote(index);
+                          },
+                          onArchive: (_) {
+                            toggleArchive(index);
+                          },
+                          child: KListTile(
+                            title: state.notes[index].title,
+                            onTap: () {
+                              if (state.selectedIndices.isNotEmpty) {
+                                deSelectNote(index);
+                              } else if (state.selectedIndices
+                                  .contains(index)) {
+                                selectNote(index);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MyCustomRouteTransition(
+                                      route: EditNotePage(index: index)),
+                                );
+                              }
+                            },
+                            tileColor: state.selectedIndices.contains(index)
+                                ? Colors.blue.withOpacity(0.5)
+                                : Theme.of(context).colorScheme.secondary,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                 );
               },
             ),

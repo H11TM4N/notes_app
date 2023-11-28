@@ -98,6 +98,28 @@ class DeleteUserNoteEvent extends NotesEvent {
   List<Object?> get props => [note];
 }
 
+class ArchiveNoteEvent extends NotesEvent {
+  final int index;
+
+  const ArchiveNoteEvent({
+    required this.index,
+  });
+
+  @override
+  List<Object?> get props => [index];
+}
+
+class StarNoteEvent extends NotesEvent {
+  final int index;
+
+  const StarNoteEvent({
+    required this.index,
+  });
+
+  @override
+  List<Object?> get props => [index];
+}
+
 class DeleteSelectedUserNotesEvent extends NotesEvent {
   final List<Note> selectedNotes;
   const DeleteSelectedUserNotesEvent({required this.selectedNotes});
