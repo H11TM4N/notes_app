@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
-import 'package:notes_app/presentation/features/main(Notes)/pages/edit_note.dart';
+import 'package:notes_app/presentation/features/main_notes/pages/edit_note.dart';
 
 import '../../../../common/common.dart';
 import '../../../../data/models/models.dart';

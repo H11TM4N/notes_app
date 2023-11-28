@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/presentation/features/main(Notes)/views/app_bar.dart';
-import 'package:notes_app/presentation/features/main(Notes)/views/bottom_nav_bar.dart';
-import 'package:notes_app/presentation/features/main(Notes)/views/notes_view.dart';
-import 'package:notes_app/presentation/features/main(Notes)/views/drawer.dart';
+import 'package:notes_app/presentation/features/main_notes/views/app_bar.dart';
+import 'package:notes_app/presentation/features/main_notes/views/bottom_nav_bar.dart';
+import 'package:notes_app/presentation/features/main_notes/views/notes_view.dart';
+import 'package:notes_app/presentation/features/main_notes/views/drawer.dart';
 import '../../../../common/common.dart';
 
 class HomePage extends StatelessWidget {
