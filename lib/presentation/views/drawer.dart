@@ -15,10 +15,6 @@ class Kdrawer extends StatefulWidget {
 }
 
 class _KdrawerState extends State<Kdrawer> {
-  final bool _selected = false;
-  bool _dummySwitch = false;
-  bool _dummySwitch2 = false;
-
   toggleTheme() {
     context.read<ThemeBloc>().add(const ToggleThemeEvent());
   }
@@ -36,34 +32,22 @@ class _KdrawerState extends State<Kdrawer> {
               UserAccountsDrawerHeader(
                 accountName: Text(state.user.name),
                 accountEmail: Text(state.user.name),
-                currentAccountPicture: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.background),
                 onDetailsPressed: () {
-                  // kNavigation(context, const OnlineBackUp());
+                  //----------------------;
                 },
               ),
               DrawerHeader(
                 child: Column(
                   children: [
-                    SwitchListTile(
-                      value: _dummySwitch,
-                      selected: _selected,
-                      onChanged: (_) {
-                        setState(() {
-                          _dummySwitch = !_dummySwitch;
-                        });
-                      },
-                      title: const Text('dummy text'),
+                    ListTile(
+                      leading: const Icon(Icons.task),
+                      title: const Text('Todos'),
+                      onTap: () {},
                     ),
-                    SwitchListTile(
-                      value: _dummySwitch2,
-                      selected: _selected,
-                      onChanged: (value) {
-                        setState(() {
-                          _dummySwitch2 = !_dummySwitch2;
-                        });
-                      },
-                      title: const Text('dummy text'),
+                    ListTile(
+                      leading: const Icon(Icons.delete),
+                      title: const Text('Trash'),
+                      onTap: () {},
                     ),
                   ],
                 ),

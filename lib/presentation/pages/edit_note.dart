@@ -30,16 +30,9 @@ class _EditNotePageState extends State<EditNotePage> {
         .add(EditNoteEvent(index: index, updatedNote: updatedNote));
   }
 
-  updateNote(Note note, Note updatedNote) {
-    context
-        .read<NotesBloc>()
-        .add(UpdateUserNotesEvent(note: note, updatedNote: updatedNote));
-  } //TODO: implement
-
   deleteNote(Note note) {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,16 +62,6 @@ class _EditNotePageState extends State<EditNotePage> {
                         } else {
                           editNote(
                             widget.index,
-                            Note(
-                              title: titleController.text,
-                              content: notesController.text,
-                            ),
-                          );
-                          updateNote(
-                            Note(
-                              title: state.notes[widget.index].title,
-                              content: state.notes[widget.index].content,
-                            ),
                             Note(
                               title: titleController.text,
                               content: notesController.text,
