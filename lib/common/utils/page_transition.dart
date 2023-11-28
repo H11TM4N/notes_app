@@ -15,3 +15,7 @@ class MyCustomRouteTransition extends PageRouteBuilder {
           },
         );
 }
+
+kNavigation(BuildContext context, Widget route) {
+  return Navigator.of(context).push(MyCustomRouteTransition(route: route));
+}

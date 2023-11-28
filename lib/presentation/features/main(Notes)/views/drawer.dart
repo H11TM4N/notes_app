@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/data/utils/others/utils.dart';
-import 'package:notes_app/logic/theme_bloc/theme_bloc.dart';
-import 'package:notes_app/logic/theme_bloc/theme_event.dart';
-import 'package:notes_app/logic/user_bloc/user_bloc.dart';
-import 'package:notes_app/logic/user_bloc/user_state.dart';
-import 'package:notes_app/presentation/pages/settings/settings_page.dart';
+import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/presentation/features/settings/settings_page.dart';
+
+import '../../../../common/common.dart';
 
 class Kdrawer extends StatefulWidget {
   const Kdrawer({super.key});

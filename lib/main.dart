@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/theme/theme.dart';
-import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
-import 'package:notes_app/logic/notes_bloc/notes_event.dart';
-import 'package:notes_app/logic/theme_bloc/theme_bloc.dart';
-import 'package:notes_app/logic/user_bloc/user_bloc.dart';
-import 'package:notes_app/presentation/pages/home_page.dart';
-import 'logic/theme_bloc/theme_state.dart';
+import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/presentation/features/main(Notes)/pages/home_page.dart';
 
 void main() async {
   runApp(const MyApp());

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/logic/notes_bloc/notes_event.dart';
-import 'package:notes_app/logic/notes_bloc/notes_state.dart';
+import 'package:notes_app/logic/blocs/notes_bloc/notes_event.dart';
+import 'package:notes_app/logic/blocs/notes_bloc/notes_state.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
   NotesBloc() : super(const NotesState()) {

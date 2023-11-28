@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/data/utils/others/pop_up_button.dart';
-import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
-import 'package:notes_app/logic/notes_bloc/notes_event.dart';
-import 'package:notes_app/logic/notes_bloc/notes_state.dart';
-import 'package:notes_app/presentation/widgets/textfield.dart';
+import '../../../../common/common.dart';
+import '../../../../data/models/models.dart';
+import '../../../../logic/blocs/blocs.dart';
 
-class EditNotePage extends StatefulWidget {
-  final int index;
-  const EditNotePage({super.key, required this.index});
+class AddNotePage extends StatefulWidget {
+  const AddNotePage({super.key});
 
   @override
-  State<EditNotePage> createState() => _EditNotePageState();
+  State<AddNotePage> createState() => _AddNotePageState();
 }
 
-class _EditNotePageState extends State<EditNotePage> {
+class _AddNotePageState extends State<AddNotePage> {
+  final TextEditingController _notesController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+
   makeReadOnlyFalse(bool readOnly) {
     context.read<NotesBloc>().add(NoteNotReadOnlyEvent(readOnly: readOnly));
   }
@@ -24,24 +23,14 @@ class _EditNotePageState extends State<EditNotePage> {
     context.read<NotesBloc>().add(NoteIsReadOnlyEvent(readOnly: readOnly));
   }
 
-  editNote(int index, Note updatedNote) {
-    context
-        .read<NotesBloc>()
-        .add(EditNoteEvent(index: index, updatedNote: updatedNote));
-  }
-
-  deleteNote(Note note) {
-    context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
+  addNewNote(Note note) {
+    context.read<NotesBloc>().add(AddNewNoteEvent(note: note));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NotesBloc, NotesState>(
       builder: (context, state) {
-        TextEditingController notesController =
-            TextEditingController(text: state.notes[widget.index].content);
-        TextEditingController titleController =
-            TextEditingController(text: state.notes[widget.index].title);
         return SafeArea(
           child: Scaffold(
             backgroundColor: Theme.of(context).colorScheme.background,
@@ -50,23 +39,22 @@ class _EditNotePageState extends State<EditNotePage> {
               leading: state.readOnly
                   ? IconButton(
                       onPressed: () {
+                        addNewNote(
+                          Note(
+                            title: _titleController.text,
+                            content: _notesController.text,
+                          ),
+                        );
                         Navigator.pop(context);
                       },
                       icon: const Icon(Icons.arrow_back),
                     )
                   : IconButton(
                       onPressed: () {
-                        if (titleController.text.isEmpty &&
-                            notesController.text.isEmpty) {
+                        if (_titleController.text.isEmpty &&
+                            _notesController.text.isEmpty) {
                           Navigator.pop(context);
                         } else {
-                          editNote(
-                            widget.index,
-                            Note(
-                              title: titleController.text,
-                              content: notesController.text,
-                            ),
-                          );
                           makeReadOnlyTrue(state.readOnly);
                         }
                       },
@@ -75,10 +63,10 @@ class _EditNotePageState extends State<EditNotePage> {
               title: SizedBox(
                 height: 70,
                 child: state.readOnly
-                    ? Center(child: Text(titleController.text))
+                    ? Center(child: Text(_titleController.text))
                     : KtextField(
                         hintText: 'title',
-                        controller: titleController,
+                        controller: _titleController,
                       ),
               ),
               actions: [
@@ -89,10 +77,9 @@ class _EditNotePageState extends State<EditNotePage> {
                       )
                     : const SizedBox.shrink(),
                 kPopUpMenuButton(
-                  text: 'Delete',
+                  text: 'Cancel',
                   onTap: () {
                     Navigator.popUntil(context, (route) => route.isFirst);
-                    deleteNote(state.notes[widget.index]);
                   },
                 ),
               ],
@@ -102,7 +89,7 @@ class _EditNotePageState extends State<EditNotePage> {
               child: GestureDetector(
                 onDoubleTap: () => makeReadOnlyFalse(state.readOnly),
                 child: TextFormField(
-                  controller: notesController,
+                  controller: _notesController,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   decoration:

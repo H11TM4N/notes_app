@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notes_app/data/constants/enums.dart';
-import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/data/utils/others/custom_page_route_transition.dart';
-import 'package:notes_app/data/utils/others/utils.dart';
-import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
-import 'package:notes_app/logic/notes_bloc/notes_event.dart';
-import 'package:notes_app/logic/notes_bloc/notes_state.dart';
-import 'package:notes_app/presentation/pages/edit_note.dart';
-import 'package:notes_app/presentation/widgets/slidable.dart';
-import 'package:notes_app/presentation/widgets/tile.dart';
+import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/presentation/features/main(Notes)/pages/edit_note.dart';
+
+import '../../../../common/common.dart';
+import '../../../../data/models/models.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});

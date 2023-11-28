@@ -2,9 +2,9 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
-import 'package:notes_app/logic/notes_bloc/notes_event.dart';
-import 'package:notes_app/logic/notes_bloc/notes_state.dart';
+import 'package:notes_app/logic/blocs/notes_bloc/notes_bloc.dart';
+import 'package:notes_app/logic/blocs/notes_bloc/notes_event.dart';
+import 'package:notes_app/logic/blocs/notes_bloc/notes_state.dart';
 
 void main() {
   group('notes bloc tests', () {

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/logic/notes_bloc/notes_bloc.dart';
-import 'package:notes_app/logic/notes_bloc/notes_event.dart';
-import 'package:notes_app/logic/notes_bloc/notes_state.dart';
+import 'package:notes_app/data/models/models.dart';
+import 'package:notes_app/logic/blocs/blocs.dart';
 
 class KbottomNavBar extends StatelessWidget {
   const KbottomNavBar({super.key});

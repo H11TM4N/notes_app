@@ -1,19 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/data/utils/others/custom_page_route_transition.dart';
-
-kNavigation(BuildContext context, Widget route) {
-  return Navigator.of(context).push(MyCustomRouteTransition(route: route));
-}
-
-void showSnackBar(BuildContext context, String content) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text(content),
-    duration: const Duration(milliseconds: 900),
-    behavior: SnackBarBehavior.floating,
-    backgroundColor: Theme.of(context).colorScheme.primary,
-    dismissDirection: DismissDirection.horizontal,
-  ));
-}
 
 Future<dynamic> showExitConfirmationDialog(BuildContext context) {
   return showDialog(

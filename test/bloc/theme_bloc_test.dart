@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:notes_app/logic/theme_bloc/theme_bloc.dart';
-import 'package:notes_app/logic/theme_bloc/theme_event.dart';
-import 'package:notes_app/logic/theme_bloc/theme_state.dart';
+import 'package:notes_app/logic/blocs/theme_bloc/theme_bloc.dart';
+import 'package:notes_app/logic/blocs/theme_bloc/theme_event.dart';
+import 'package:notes_app/logic/blocs/theme_bloc/theme_state.dart';
 import 'package:test/test.dart';
 
 void main() {

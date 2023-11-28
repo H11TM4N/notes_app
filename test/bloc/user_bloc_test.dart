@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notes_app/data/models/user.dart';
-import 'package:notes_app/logic/user_bloc/user_bloc.dart';
-import 'package:notes_app/logic/user_bloc/user_event.dart';
-import 'package:notes_app/logic/user_bloc/user_state.dart';
+import 'package:notes_app/logic/blocs/user_bloc/user_bloc.dart';
+import 'package:notes_app/logic/blocs/user_bloc/user_event.dart';
+import 'package:notes_app/logic/blocs/user_bloc/user_state.dart';
 
 void main() {
   group('user bloc tests', () {

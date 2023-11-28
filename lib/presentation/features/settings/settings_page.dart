@@ -2,13 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/data/constants/colors.dart';
-import 'package:notes_app/data/utils/auth_utils/show_loading_dialog.dart';
-import 'package:notes_app/data/utils/others/utils.dart';
-import 'package:notes_app/logic/user_bloc/user_bloc.dart';
-import 'package:notes_app/logic/user_bloc/user_event.dart';
-import 'package:notes_app/logic/user_bloc/user_state.dart';
-import 'package:notes_app/presentation/widgets/textfield.dart';
+import '../../../common/common.dart';
+import '../../../logic/blocs/blocs.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -64,7 +59,7 @@ class _SettingPageState extends State<SettingPage> {
                 hintText: 'Enter new display name',
               ),
               MaterialButton(
-                textColor: colorBlue,
+                textColor: const Color(0xFF1DA1F2),
                 onPressed: () async {
                   Navigator.pop(context);
                   try {
