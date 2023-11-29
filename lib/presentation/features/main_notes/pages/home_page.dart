@@ -4,6 +4,7 @@ import 'package:notes_app/presentation/features/main_notes/views/bottom_nav_bar.
 import 'package:notes_app/presentation/features/main_notes/views/notes_view.dart';
 import 'package:notes_app/presentation/features/main_notes/views/drawer.dart';
 import '../../../../common/common.dart';
+import '../views/fab.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,6 +22,8 @@ class HomePage extends StatelessWidget {
         body: const NotesView(),
         bottomNavigationBar: const KbottomNavBar(),
         drawer: const Kdrawer(),
+        floatingActionButton: const Kfab(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

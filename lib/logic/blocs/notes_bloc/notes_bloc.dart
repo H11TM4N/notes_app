@@ -169,7 +169,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
   FutureOr<void> _deleteNote(event, emit) async {
     emit(state.copyWith(status: NoteStatus.loading));
-    emit(state.copyWith(status: NoteStatus.removed));
     try {
       state.notes.remove(event.note);
       var notArchivedNotes =
@@ -191,7 +190,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
   FutureOr<void> _addNewNote(event, emit) async {
     emit(state.copyWith(status: NoteStatus.loading));
-    emit(state.copyWith(status: NoteStatus.added));
     try {
       List<Note> temp = [];
       temp.addAll(state.notes);

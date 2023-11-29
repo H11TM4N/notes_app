@@ -135,11 +135,7 @@ class _NotesViewState extends State<NotesView> {
         }
       },
       listener: (context, state) {
-        if (state.status == NoteStatus.added) {
-          showSnackBar(context, 'Note added');
-        } else if (state.status == NoteStatus.removed) {
-          showSnackBar(context, 'note(s) removed');
-        } else if (state.status == NoteStatus.edited) {
+        if (state.status == NoteStatus.edited) {
           showSnackBar(context, 'saved');
         }
       },

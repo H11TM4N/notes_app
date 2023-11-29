@@ -57,7 +57,7 @@ class _KdrawerState extends State<Kdrawer> {
                       fontFamily: 'Merriweather', fontWeight: FontWeight.w100),
                 ),
                 onDetailsPressed: () {
-                  kNavigation(context, const SettingPage());
+                  smoothNavigation(context, const SettingPage());
                 },
               ),
               DrawerHeader(
@@ -72,7 +72,7 @@ class _KdrawerState extends State<Kdrawer> {
                       leading: const Icon(Icons.star_outline),
                       title: const Text('Starred'),
                       onTap: () {
-                        kNavigation(context, const StarredPage());
+                        smoothNavigation(context, const StarredPage());
                       },
                     ),
                   ],
@@ -90,7 +90,7 @@ class _KdrawerState extends State<Kdrawer> {
                       leading: const Icon(Icons.archive),
                       title: const Text('Archive'),
                       onTap: () {
-                        kNavigation(context, const ArchivePage());
+                        smoothNavigation(context, const ArchivePage());
                       },
                     ),
                   ],
@@ -103,7 +103,7 @@ class _KdrawerState extends State<Kdrawer> {
                       leading: const Icon(Icons.settings),
                       title: const Text('Settings'),
                       onTap: () {
-                        kNavigation(context, const SettingPage());
+                        smoothNavigation(context, const SettingPage());
                       },
                     ),
                   ],

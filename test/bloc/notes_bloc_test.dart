@@ -40,7 +40,6 @@ void main() {
       },
       expect: () => [
         notesState.copyWith(status: NoteStatus.loading),
-        notesState.copyWith(status: NoteStatus.added),
         notesState.copyWith(
           status: NoteStatus.success,
           notes: [Note(title: 'title', content: 'content')],
@@ -60,7 +59,6 @@ void main() {
       },
       expect: () => [
         notesState.copyWith(status: NoteStatus.loading),
-        notesState.copyWith(status: NoteStatus.removed),
         notesState.copyWith(
           notes: [],
           status: NoteStatus.initial,

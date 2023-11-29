@@ -20,12 +20,14 @@ class KbottomNavBar extends StatelessWidget {
 
     return BlocBuilder<NotesBloc, NotesState>(
       builder: (context, state) {
+        final theme = Theme.of(context).colorScheme;
         if (state.selectedIndices.isNotEmpty) {
           final selectedNotes = state.selectedIndices.map((index) {
             return state.notes[index];
           }).toList();
 
           return BottomAppBar(
+            color: theme.primary,
             child: Row(
               children: [
                 IconButton(
@@ -43,7 +45,25 @@ class KbottomNavBar extends StatelessWidget {
             ),
           );
         } else {
-          return const SizedBox.shrink();
+          return SafeArea(
+            child: BottomAppBar(
+              height: 70,
+              color: theme.secondary,
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.delete),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.more_vert),
+                  ),
+                ],
+              ),
+            ),
+          );
         }
       },
     );
