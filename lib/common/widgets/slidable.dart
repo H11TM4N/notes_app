@@ -23,13 +23,13 @@ class KslidableWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: Slidable(
-        endActionPane: ActionPane(
-          motion: const ScrollMotion(),
-          children: [
-            BlocBuilder<NotesBloc, NotesState>(
-              builder: (context, state) {
-                return SlidableAction(
+      child: BlocBuilder<NotesBloc, NotesState>(
+        builder: (context, state) {
+          return Slidable(
+            endActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(
                   onPressed: onStar,
                   backgroundColor: Colors.blue.shade900,
                   icon: state.notes[index].isStarred
@@ -38,28 +38,28 @@ class KslidableWidget extends StatelessWidget {
                   label: 'star',
                   padding: const EdgeInsets.all(5),
                   autoClose: false,
-                );
-              },
+                ),
+                const SizedBox(width: 2),
+                SlidableAction(
+                  onPressed: onArchive,
+                  backgroundColor: Colors.blue,
+                  icon: Icons.archive,
+                  label: state.notes[index].isArchived ? 'undo' : 'archive',
+                  padding: const EdgeInsets.all(5),
+                ),
+                const SizedBox(width: 2),
+                SlidableAction(
+                  onPressed: onDelete,
+                  backgroundColor: Colors.red,
+                  icon: Icons.delete,
+                  label: 'delete',
+                  padding: const EdgeInsets.all(5),
+                ),
+              ],
             ),
-            const SizedBox(width: 2),
-            SlidableAction(
-              onPressed: onArchive,
-              backgroundColor: Colors.blue,
-              icon: Icons.archive,
-              label: 'archive',
-              padding: const EdgeInsets.all(5),
-            ),
-            const SizedBox(width: 2),
-            SlidableAction(
-              onPressed: onDelete,
-              backgroundColor: Colors.red,
-              icon: Icons.delete,
-              label: 'delete',
-              padding: const EdgeInsets.all(5),
-            ),
-          ],
-        ),
-        child: child,
+            child: child,
+          );
+        },
       ),
     );
   }

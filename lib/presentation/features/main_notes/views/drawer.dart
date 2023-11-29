@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
 import 'package:notes_app/presentation/features/archive/pages/archive_page.dart';
 import 'package:notes_app/presentation/features/settings/settings_page.dart';
+import 'package:notes_app/presentation/features/starred/pages/starred_page.dart';
 
 import '../../../../common/common.dart';
 
@@ -70,7 +71,9 @@ class _KdrawerState extends State<Kdrawer> {
                     ListTile(
                       leading: const Icon(Icons.star_outline),
                       title: const Text('Starred'),
-                      onTap: () {},
+                      onTap: () {
+                        kNavigation(context, const StarredPage());
+                      },
                     ),
                   ],
                 ),

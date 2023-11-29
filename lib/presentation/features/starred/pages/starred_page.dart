@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:notes_app/common/common.dart';
 import 'package:notes_app/data/models/models.dart';
 
 import '../../../../logic/blocs/blocs.dart';
 
-class ArchivePage extends StatefulWidget {
-  const ArchivePage({super.key});
+class StarredPage extends StatefulWidget {
+  const StarredPage({super.key});
 
   @override
-  State<ArchivePage> createState() => _ArchivePageState();
+  State<StarredPage> createState() => _StarredPageState();
 }
 
-class _ArchivePageState extends State<ArchivePage> {
+class _StarredPageState extends State<StarredPage> {
   deleteNote(Note note) {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
   }
@@ -30,7 +31,7 @@ class _ArchivePageState extends State<ArchivePage> {
     final theme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Archives'),
+        title: const Text('Starred'),
         backgroundColor: theme.primary,
       ),
       backgroundColor: theme.background,
@@ -39,7 +40,8 @@ class _ArchivePageState extends State<ArchivePage> {
           return ListView.builder(
             itemCount: state.notes.length,
             itemBuilder: (context, index) {
-              if (state.notes[index].isArchived) {
+              var currentNote = state.notes[index];
+              if (currentNote.isStarred) {
                 return KslidableWidget(
                   index: index,
                   onDelete: (_) {
@@ -57,7 +59,15 @@ class _ArchivePageState extends State<ArchivePage> {
                       tileColor: Theme.of(context).colorScheme.secondary),
                 );
               } else {
-                return const SizedBox.shrink();
+                return Column(
+                  children: [
+                    Lottie.asset('assets/json/empty-list.json'),
+                    Text(
+                      "No starred notes",
+                      style: emptyListStyle(context),
+                    ),
+                  ],
+                );
               }
             },
           );
