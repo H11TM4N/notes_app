@@ -28,6 +28,8 @@ class DeleteNoteEvent extends NotesEvent {
   List<Object?> get props => [note];
 }
 
+class DeleteAllNotesEvent extends NotesEvent {}
+
 class DeleteSelectedNotesEvent extends NotesEvent {}
 
 class EditNoteEvent extends NotesEvent {

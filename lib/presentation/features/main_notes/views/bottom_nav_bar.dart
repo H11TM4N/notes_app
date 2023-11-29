@@ -21,6 +21,10 @@ class KbottomNavBar extends StatelessWidget {
           .add(DeleteSelectedUserNotesEvent(selectedNotes: selectedNotes));
     }
 
+    deleteAllNotes() {
+      context.read<NotesBloc>().add(DeleteAllNotesEvent());
+    }
+
     return BlocBuilder<NotesBloc, NotesState>(
       builder: (context, state) {
         final theme = Theme.of(context).colorScheme;
@@ -78,7 +82,9 @@ class KbottomNavBar extends StatelessWidget {
                         popUpMenuButton(
                             title: 'Delete all notes',
                             icon: Icons.delete_forever,
-                            onTap: () {}),
+                            onTap: () {
+                              deleteAllNotes();
+                            }),
                         popUpMenuButton(
                             title: 'Settings',
                             icon: Icons.settings,

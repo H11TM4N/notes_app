@@ -13,6 +13,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
     on<DeleteNoteEvent>(_deleteNote);
 
+    on<DeleteAllNotesEvent>(_deleteAllNotes);
+
     on<ArchiveNoteEvent>(_archiveNote);
 
     on<StarNoteEvent>(_starNote);
@@ -183,6 +185,18 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
           status: NoteStatus.success,
         ));
       }
+    } catch (e) {
+      emit(state.copyWith(status: NoteStatus.error));
+    }
+  }
+
+  FutureOr<void> _deleteAllNotes(event, emit) async {
+    emit(state.copyWith(status: NoteStatus.loading));
+    try {
+      state.notes.clear();
+      emit(state.copyWith(
+        status: NoteStatus.initial,
+      ));
     } catch (e) {
       emit(state.copyWith(status: NoteStatus.error));
     }
