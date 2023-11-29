@@ -13,39 +13,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
     on<DeleteNoteEvent>(_deleteNote);
 
-    on<ArchiveNoteEvent>((event, emit) {
-      emit(state.copyWith(status: NoteStatus.loading));
-      if (event.index >= 0 && event.index < state.notes.length) {
-        var note = state.notes[event.index];
-        if (!note.isArchived) {
-          note = note.copyWith(isArchived: true);
-        } else {
-          note = note.copyWith(isArchived: false);
-        }
-        List<Note>? updatedNotes = List.from(state.notes);
-        updatedNotes[event.index] = note;
-        emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
-      } else {
-        emit(state.copyWith(status: NoteStatus.error));
-      }
-    });
+    on<ArchiveNoteEvent>(_archiveNote);
 
-    on<StarNoteEvent>((event, emit) {
-      emit(state.copyWith(status: NoteStatus.loading));
-      if (event.index >= 0 && event.index < state.notes.length) {
-        var note = state.notes[event.index];
-        if (!note.isStarred) {
-          note = note.copyWith(isStarred: true);
-        } else {
-          note = note.copyWith(isStarred: false);
-        }
-        List<Note>? updatedNotes = List.from(state.notes);
-        updatedNotes[event.index] = note;
-        emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
-      } else {
-        emit(state.copyWith(status: NoteStatus.error));
-      }
-    });
+    on<StarNoteEvent>(_starNote);
 
     on<DeleteSelectedNotesEvent>(_deleteSelecedNotes);
 
@@ -60,6 +30,45 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<DeSelectNoteEvent>(_deSelectNote);
 
     on<ClearSelectionEvent>(_clearSelection);
+  }
+
+  FutureOr<void> _starNote(event, emit) {
+    emit(state.copyWith(status: NoteStatus.loading));
+    if (event.index >= 0 && event.index < state.notes.length) {
+      var note = state.notes[event.index];
+      if (!note.isStarred) {
+        note = note.copyWith(isStarred: true);
+      } else {
+        note = note.copyWith(isStarred: false);
+      }
+      List<Note>? updatedNotes = List.from(state.notes);
+      updatedNotes[event.index] = note;
+      emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
+    } else {
+      emit(state.copyWith(status: NoteStatus.error));
+    }
+  }
+
+  FutureOr<void> _archiveNote(event, emit) {
+    emit(state.copyWith(status: NoteStatus.loading));
+    if (event.index >= 0 && event.index < state.notes.length) {
+      var note = state.notes[event.index];
+      if (!note.isArchived) {
+        note = note.copyWith(isArchived: true);
+      } else {
+        note = note.copyWith(isArchived: false);
+      }
+      List<Note>? updatedNotes = List.from(state.notes);
+      updatedNotes[event.index] = note;
+      emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
+      var notArchivedNotes =
+          state.notes.where((note) => !note.isArchived).toList();
+      if (state.notes.isEmpty || notArchivedNotes.isEmpty) {
+        emit(state.copyWith(status: NoteStatus.initial));
+      }
+    } else {
+      emit(state.copyWith(status: NoteStatus.error));
+    }
   }
 
   FutureOr<void> _clearSelection(event, emit) async {
@@ -138,7 +147,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       for (var index in selectedIndices) {
         updatedNotes.removeAt(index);
       }
-      if (updatedNotes.isEmpty) {
+      var notArchivedNotes =
+          state.notes.where((note) => !note.isArchived).toList();
+      if (updatedNotes.isEmpty || notArchivedNotes.isEmpty) {
         emit(state.copyWith(
           notes: updatedNotes,
           selectedIndices: [],
@@ -161,8 +172,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(state.copyWith(status: NoteStatus.removed));
     try {
       state.notes.remove(event.note);
-
-      if (state.notes.isEmpty) {
+      var notArchivedNotes =
+          state.notes.where((note) => !note.isArchived).toList();
+      if (state.notes.isEmpty || notArchivedNotes.isEmpty) {
         emit(state.copyWith(
           status: NoteStatus.initial,
         ));
