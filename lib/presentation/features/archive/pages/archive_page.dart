@@ -9,9 +9,13 @@ class ArchivePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: const Text('Archives')),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppBar(
+        title: const Text('Archives'),
+        backgroundColor: theme.primary,
+      ),
+      backgroundColor: theme.background,
       body: BlocBuilder<NotesBloc, NotesState>(
         builder: (context, state) {
           return ListView.builder(

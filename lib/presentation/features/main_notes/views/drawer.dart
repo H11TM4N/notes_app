@@ -29,10 +29,34 @@ class _KdrawerState extends State<Kdrawer> {
           child: ListView(
             children: [
               UserAccountsDrawerHeader(
-                accountName: Text(state.user.name),
-                accountEmail: Text(state.user.name),
+                accountName: state.user.name != '. . .'
+                    ? RichText(
+                        text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Hi, ',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w200,
+                            ),
+                          ),
+                          TextSpan(
+                            text: state.user.name,
+                            style: const TextStyle(
+                                fontSize: 25,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ))
+                    : const Text('. . .'),
+                accountEmail: Text(
+                  state.user.name != '. . .' ? '. . .' : 'Tap to edit profile',
+                  style: const TextStyle(
+                      fontFamily: 'Merriweather', fontWeight: FontWeight.w100),
+                ),
                 onDetailsPressed: () {
-                  //----------------------;
+                  kNavigation(context, const SettingPage());
                 },
               ),
               DrawerHeader(

@@ -4,7 +4,7 @@ import 'package:notes_app/logic/blocs/user_bloc/user_event.dart';
 import 'package:notes_app/logic/blocs/user_bloc/user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-  UserBloc() : super(UserState(user: User(name: 'name'))) {
+  UserBloc() : super(UserState(user: User(name: '. . .'))) {
     on<UpdateUserNameEvent>((event, emit) {
       emit(state.copyWith(
         user: User(name: event.newName),
