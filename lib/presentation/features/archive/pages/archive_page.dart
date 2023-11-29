@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:notes_app/common/common.dart';
 import 'package:notes_app/data/models/models.dart';
 
@@ -39,11 +40,12 @@ class _ArchivePageState extends State<ArchivePage> {
           return ListView.builder(
             itemCount: state.notes.length,
             itemBuilder: (context, index) {
-              if (state.notes[index].isArchived) {
+              var currentNote = state.notes[index];
+              if (currentNote.isArchived) {
                 return KslidableWidget(
                   index: index,
                   onDelete: (_) {
-                    deleteNote(state.notes[index]);
+                    deleteNote(currentNote);
                   },
                   onStar: (_) {
                     starNote(index);
@@ -52,12 +54,20 @@ class _ArchivePageState extends State<ArchivePage> {
                     toggleArchive(index);
                   },
                   child: KListTile(
-                      title: state.notes[index].title,
+                      title: currentNote.title,
                       onTap: () {},
                       tileColor: Theme.of(context).colorScheme.secondary),
                 );
               } else {
-                return const SizedBox.shrink();
+                return Column(
+                  children: [
+                    Lottie.asset('assets/json/empty-list.json'),
+                    Text(
+                      "No Archives",
+                      style: emptyListStyle(context),
+                    ),
+                  ],
+                );
               }
             },
           );

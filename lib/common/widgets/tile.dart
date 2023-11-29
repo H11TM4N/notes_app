@@ -23,10 +23,12 @@ class KListTile extends StatelessWidget {
       ),
       elevation: 9,
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(
-            left: BorderSide(
-              color: Colors.blue, // Specify the color of the left border
+            right: BorderSide(
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary, // Specify the color of the left border
               width: 5.0, // Specify the width of the left border
             ),
           ),
