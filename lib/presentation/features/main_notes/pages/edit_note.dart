@@ -22,11 +22,11 @@ class _EditNotePageState extends State<EditNotePage> {
     context.read<NotesBloc>().add(NoteIsReadOnlyEvent(readOnly: readOnly));
   }
 
-  editNote(int index, Note updatedNote, List<Note> notes) {
+  editNote(int index, Note updatedNote) {
     context
         .read<NotesBloc>()
         .add(EditNoteEvent(index: index, updatedNote: updatedNote));
-    NotesPreferences.saveNotesToPrefs(notes);
+    NotesPreferences.updateNoteInPrefs(index, updatedNote);
   }
 
   deleteNote(Note note, int index) {
@@ -66,7 +66,6 @@ class _EditNotePageState extends State<EditNotePage> {
                               title: titleController.text,
                               content: notesController.text,
                             ),
-                            state.notes,
                           );
                           makeReadOnlyTrue(state.readOnly);
                         }

@@ -39,11 +39,6 @@ class _NotesViewState extends State<NotesView> {
     await NotesPreferences.starNoteToggle(index, isStarred);
   }
 
-  toggleArchive(int index, bool isArchived) async {
-    context.read<NotesBloc>().add(ArchiveNoteEvent(index: index));
-    await NotesPreferences.archiveNoteToggle(index, isArchived);
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<NotesBloc, NotesState>(
@@ -79,44 +74,37 @@ class _NotesViewState extends State<NotesView> {
               itemBuilder: (context, index) {
                 final currentNote = state.notes[index];
                 return GestureDetector(
-                  onLongPress: () {
-                    selectNote(index);
-                  },
-                  child: !currentNote.isArchived
-                      ? KslidableWidget(
-                          index: index,
-                          onDelete: (_) {
-                            deleteNote(currentNote, index);
-                          },
-                          onStar: (_) {
-                            starNote(index, currentNote.isStarred);
-                          },
-                          onArchive: (_) {
-                            toggleArchive(index, currentNote.isArchived);
-                          },
-                          child: KListTile(
-                            title: currentNote.title,
-                            onTap: () {
-                              if (state.selectedIndices.isNotEmpty) {
-                                deSelectNote(index);
-                              } else if (state.selectedIndices
-                                  .contains(index)) {
-                                selectNote(index);
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MyCustomRouteTransition(
-                                      route: EditNotePage(index: index)),
-                                );
-                              }
-                            },
-                            tileColor: state.selectedIndices.contains(index)
-                                ? Colors.blue.withOpacity(0.5)
-                                : Theme.of(context).colorScheme.secondary,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                );
+                    onLongPress: () {
+                      selectNote(index);
+                    },
+                    child: KslidableWidget(
+                      index: index,
+                      onDelete: (_) {
+                        deleteNote(currentNote, index);
+                      },
+                      onStar: (_) {
+                        starNote(index, currentNote.isStarred);
+                      },
+                      child: KListTile(
+                        title: currentNote.title,
+                        onTap: () {
+                          if (state.selectedIndices.isNotEmpty) {
+                            deSelectNote(index);
+                          } else if (state.selectedIndices.contains(index)) {
+                            selectNote(index);
+                          } else {
+                            Navigator.push(
+                              context,
+                              MyCustomRouteTransition(
+                                  route: EditNotePage(index: index)),
+                            );
+                          }
+                        },
+                        tileColor: state.selectedIndices.contains(index)
+                            ? Colors.blue.withOpacity(0.5)
+                            : Theme.of(context).colorScheme.secondary,
+                      ),
+                    ));
               },
             ),
           );

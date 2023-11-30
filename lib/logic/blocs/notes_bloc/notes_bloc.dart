@@ -16,8 +16,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
     on<DeleteAllNotesEvent>(_deleteAllNotes);
 
-    on<ArchiveNoteEvent>(_archiveNote);
-
     on<StarNoteEvent>(_starNote);
 
     on<DeleteSelectedNotesEvent>(_deleteSelectedNotes);
@@ -47,28 +45,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       List<Note>? updatedNotes = List.from(state.notes);
       updatedNotes[event.index] = note;
       emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
-    } else {
-      emit(state.copyWith(status: NoteStatus.error));
-    }
-  }
-
-  FutureOr<void> _archiveNote(event, emit) {
-    emit(state.copyWith(status: NoteStatus.loading));
-    if (event.index >= 0 && event.index < state.notes.length) {
-      var note = state.notes[event.index];
-      if (!note.isArchived) {
-        note = note.copyWith(isArchived: true);
-      } else {
-        note = note.copyWith(isArchived: false);
-      }
-      List<Note>? updatedNotes = List.from(state.notes);
-      updatedNotes[event.index] = note;
-      emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
-      var notArchivedNotes =
-          state.notes.where((note) => !note.isArchived).toList();
-      if (state.notes.isEmpty || notArchivedNotes.isEmpty) {
-        emit(state.copyWith(status: NoteStatus.initial));
-      }
     } else {
       emit(state.copyWith(status: NoteStatus.error));
     }
@@ -151,9 +127,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       for (var index in selectedIndices) {
         updatedNotes.removeAt(index);
       }
-      var notArchivedNotes =
-          state.notes.where((note) => !note.isArchived).toList();
-      if (updatedNotes.isEmpty || notArchivedNotes.isEmpty) {
+      
+      if (updatedNotes.isEmpty) {
         emit(state.copyWith(
           notes: updatedNotes,
           selectedIndices: [],
@@ -176,9 +151,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(state.copyWith(status: NoteStatus.loading));
     try {
       state.notes.remove(event.note);
-      var notArchivedNotes =
-          state.notes.where((note) => !note.isArchived).toList();
-      if (state.notes.isEmpty || notArchivedNotes.isEmpty) {
+      
+      if (state.notes.isEmpty) {
         emit(state.copyWith(
           status: NoteStatus.initial,
         ));

@@ -6,14 +6,12 @@ class Note {
   final String title;
   final String? content;
   final bool isStarred;
-  final bool isArchived;
 
   Note({
     this.id = '',
     required this.title,
     required this.content,
     this.isStarred = false,
-    this.isArchived = false,
   });
 
   // Note.empty()
@@ -21,7 +19,6 @@ class Note {
   //       title = '',
   //       content = '',
   //       isStarred = NotesPreferences.loadStarredStatus() ?? false,
-  //       isArchived = NotesPreferences.loadArchivedStatus() ?? false;
 
   Note copyWith({
     String? id,
@@ -35,7 +32,6 @@ class Note {
       title: title ?? this.title,
       content: content ?? this.content,
       isStarred: isStarred ?? this.isStarred,
-      isArchived: isArchived ?? this.isArchived,
     );
   }
 
@@ -45,7 +41,6 @@ class Note {
       'title': title,
       'content': content,
       'isStarred': isStarred,
-      'isArchived': isArchived,
     };
   }
 
@@ -55,7 +50,6 @@ class Note {
       title: map['title'] as String,
       content: map['content'] != null ? map['content'] as String : null,
       isStarred: map['isStarred'] as bool,
-      isArchived: map['isArchived'] as bool,
     );
   }
 
@@ -66,7 +60,7 @@ class Note {
 
   @override
   String toString() {
-    return 'Note(id: $id, title: $title, content: $content, isStarred: $isStarred, isArchived: $isArchived)';
+    return 'Note(id: $id, title: $title, content: $content, isStarred: $isStarred)';
   }
 
   @override
@@ -76,8 +70,7 @@ class Note {
     return other.id == id &&
         other.title == title &&
         other.content == content &&
-        other.isStarred == isStarred &&
-        other.isArchived == isArchived;
+        other.isStarred == isStarred;
   }
 
   @override
@@ -85,7 +78,6 @@ class Note {
     return id.hashCode ^
         title.hashCode ^
         content.hashCode ^
-        isStarred.hashCode ^
-        isArchived.hashCode;
+        isStarred.hashCode;
   }
 }

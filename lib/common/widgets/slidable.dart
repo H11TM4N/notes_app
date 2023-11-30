@@ -8,7 +8,6 @@ class KslidableWidget extends StatelessWidget {
   final Widget child;
   final void Function(BuildContext) onDelete;
   final void Function(BuildContext) onStar;
-  final void Function(BuildContext) onArchive;
 
   const KslidableWidget({
     super.key,
@@ -16,7 +15,6 @@ class KslidableWidget extends StatelessWidget {
     required this.child,
     required this.onDelete,
     required this.onStar,
-    required this.onArchive,
   });
 
   @override
@@ -38,14 +36,6 @@ class KslidableWidget extends StatelessWidget {
                   label: 'star',
                   padding: const EdgeInsets.all(5),
                   autoClose: false,
-                ),
-                const SizedBox(width: 2),
-                SlidableAction(
-                  onPressed: onArchive,
-                  backgroundColor: Colors.blue,
-                  icon: Icons.archive,
-                  label: state.notes[index].isArchived ? 'undo' : 'archive',
-                  padding: const EdgeInsets.all(5),
                 ),
                 const SizedBox(width: 2),
                 SlidableAction(

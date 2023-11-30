@@ -25,11 +25,6 @@ class _StarredPageState extends State<StarredPage> {
     await NotesPreferences.starNoteToggle(index, isStarred);
   }
 
-  toggleArchive(int index, bool isArchived) async {
-    context.read<NotesBloc>().add(ArchiveNoteEvent(index: index));
-    await NotesPreferences.archiveNoteToggle(index, isArchived);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
@@ -53,9 +48,6 @@ class _StarredPageState extends State<StarredPage> {
                   },
                   onStar: (_) {
                     starNote(index, currentNote.isStarred);
-                  },
-                  onArchive: (_) {
-                    toggleArchive(index, currentNote.isArchived);
                   },
                   child: KListTile(
                       title: currentNote.title,

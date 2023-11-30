@@ -17,6 +17,19 @@ class NotesPreferences {
     await _notesPrefs.setStringList(_notesKey, notesJsonList);
   }
 
+  static Future<void> updateNoteInPrefs(int index, Note updatedNote) async {
+    List<String> notesJson = _notesPrefs.getStringList(_notesKey) ?? [];
+
+    if (index >= 0 && index < notesJson.length) {
+      List<Note> notes = notesJson
+          .map((noteJson) => Note.fromJson(json.decode(noteJson)))
+          .toList();
+      notes[index] = updatedNote;
+      _notesPrefs.setStringList(
+          _notesKey, notes.map((note) => json.encode(note.toJson())).toList());
+    }
+  }
+
   static List<Note> loadNotesFromPrefs() {
     final List<String>? notesJsonList = _notesPrefs.getStringList(_notesKey);
     if (notesJsonList != null) {
@@ -74,15 +87,15 @@ class NotesPreferences {
     }
   }
 
-  static Future<void> archiveNoteToggle(int index, bool isArchived) async {
-    List<Note> currentNotes = loadNotesFromPrefs();
+  // static Future<void> archiveNoteToggle(int index, bool isArchived) async {
+  //   List<Note> currentNotes = loadNotesFromPrefs();
 
-    if (index >= 0 && index < currentNotes.length) {
-      currentNotes[index] =
-          currentNotes[index].copyWith(isArchived: isArchived);
-      await saveNotesToPrefs(currentNotes);
-    } else {
-      // Handle invalid index (out of bounds)
-    }
-  }
+  //   if (index >= 0 && index < currentNotes.length) {
+  //     currentNotes[index] =
+  //         currentNotes[index].copyWith(isArchived: isArchived);
+  //     await saveNotesToPrefs(currentNotes);
+  //   } else {
+  //     // Handle invalid index (out of bounds)
+  //   }
+  // }
 }
