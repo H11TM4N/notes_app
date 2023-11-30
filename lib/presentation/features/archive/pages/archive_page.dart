@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notes_app/common/common.dart';
 import 'package:notes_app/data/models/models.dart';
+import 'package:notes_app/logic/repositories/repos.dart';
 
 import '../../../../logic/blocs/blocs.dart';
 
@@ -14,16 +15,19 @@ class ArchivePage extends StatefulWidget {
 }
 
 class _ArchivePageState extends State<ArchivePage> {
-  deleteNote(Note note) {
+  deleteNote(Note note, int index) async {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
+    await NotesPreferences.deleteNoteFromPrefs(index);
   }
 
-  starNote(int index) {
+  starNote(int index, bool isStarred) async {
     context.read<NotesBloc>().add(StarNoteEvent(index: index));
+    await NotesPreferences.starNoteToggle(index, isStarred);
   }
 
-  toggleArchive(int index) {
+  toggleArchive(int index, bool isArchived) async {
     context.read<NotesBloc>().add(ArchiveNoteEvent(index: index));
+    await NotesPreferences.archiveNoteToggle(index, isArchived);
   }
 
   @override
@@ -45,13 +49,13 @@ class _ArchivePageState extends State<ArchivePage> {
                 return KslidableWidget(
                   index: index,
                   onDelete: (_) {
-                    deleteNote(currentNote);
+                    deleteNote(currentNote, index);
                   },
                   onStar: (_) {
-                    starNote(index);
+                    starNote(index, currentNote.isStarred);
                   },
                   onArchive: (_) {
-                    toggleArchive(index);
+                    toggleArchive(index, currentNote.isArchived);
                   },
                   child: KListTile(
                       title: currentNote.title,

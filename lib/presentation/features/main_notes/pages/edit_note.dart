@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
 import '../../../../common/common.dart';
 import '../../../../data/models/models.dart';
 import '../../../../logic/blocs/blocs.dart';
@@ -21,14 +22,16 @@ class _EditNotePageState extends State<EditNotePage> {
     context.read<NotesBloc>().add(NoteIsReadOnlyEvent(readOnly: readOnly));
   }
 
-  editNote(int index, Note updatedNote) {
+  editNote(int index, Note updatedNote, List<Note> notes) {
     context
         .read<NotesBloc>()
         .add(EditNoteEvent(index: index, updatedNote: updatedNote));
+    NotesPreferences.saveNotesToPrefs(notes);
   }
 
-  deleteNote(Note note) {
+  deleteNote(Note note, int index) {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
+    NotesPreferences.deleteNoteFromPrefs(index);
   }
 
   @override
@@ -63,6 +66,7 @@ class _EditNotePageState extends State<EditNotePage> {
                               title: titleController.text,
                               content: notesController.text,
                             ),
+                            state.notes,
                           );
                           makeReadOnlyTrue(state.readOnly);
                         }
@@ -89,7 +93,7 @@ class _EditNotePageState extends State<EditNotePage> {
                   text: 'Delete',
                   onTap: () {
                     Navigator.popUntil(context, (route) => route.isFirst);
-                    deleteNote(state.notes[widget.index]);
+                    deleteNote(state.notes[widget.index], widget.index);
                   },
                 ),
               ],

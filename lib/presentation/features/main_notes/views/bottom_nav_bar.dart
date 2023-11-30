@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/common/utils/page_transition.dart';
-import 'package:notes_app/data/models/models.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
 import 'package:notes_app/presentation/features/main_notes/pages/add_new_note.dart';
 import 'package:notes_app/presentation/features/settings/settings_page.dart';
 
@@ -11,36 +11,26 @@ class KbottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    deleteNotes() {
+    deleteSelectedNotes() {
       context.read<NotesBloc>().add(DeleteSelectedNotesEvent());
     }
 
-    deleteNotesFromDatabase(List<Note> selectedNotes) {
-      context
-          .read<NotesBloc>()
-          .add(DeleteSelectedUserNotesEvent(selectedNotes: selectedNotes));
-    }
-
-    deleteAllNotes() {
+    deleteAllNotes() async {
       context.read<NotesBloc>().add(DeleteAllNotesEvent());
+      await NotesPreferences.deleteAllNotesFromPrefs();
     }
 
     return BlocBuilder<NotesBloc, NotesState>(
       builder: (context, state) {
         final theme = Theme.of(context).colorScheme;
         if (state.selectedIndices.isNotEmpty) {
-          final selectedNotes = state.selectedIndices.map((index) {
-            return state.notes[index];
-          }).toList();
-
           return BottomAppBar(
             color: theme.primary,
             child: Row(
               children: [
                 IconButton(
                   onPressed: () {
-                    deleteNotes();
-                    deleteNotesFromDatabase(selectedNotes);
+                    deleteSelectedNotes();
                   },
                   icon: const Icon(Icons.delete),
                 ),

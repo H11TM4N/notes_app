@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
-
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class Note {
   final String id;
@@ -14,8 +12,9 @@ class Note {
     this.id = '',
     required this.title,
     required this.content,
-  })  : isStarred = NotesPreferences.loadStarredStatus() ?? false,
-        isArchived = NotesPreferences.loadArchivedStatus() ?? false;
+    this.isStarred = false,
+    this.isArchived = false,
+  });
 
   // Note.empty()
   //     : id = '',
@@ -35,8 +34,8 @@ class Note {
       id: id ?? this.id,
       title: title ?? this.title,
       content: content ?? this.content,
-      // isStarred: isStarred ?? this.isStarred,
-      // isArchived: isArchived ?? this.isArchived,
+      isStarred: isStarred ?? this.isStarred,
+      isArchived: isArchived ?? this.isArchived,
     );
   }
 
@@ -55,8 +54,8 @@ class Note {
       id: map['id'] as String,
       title: map['title'] as String,
       content: map['content'] != null ? map['content'] as String : null,
-      // isStarred: map['isStarred'] as bool,
-      // isArchived: map['isArchived'] as bool,
+      isStarred: map['isStarred'] as bool,
+      isArchived: map['isArchived'] as bool,
     );
   }
 

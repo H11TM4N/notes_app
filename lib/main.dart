@@ -8,9 +8,9 @@ import 'package:notes_app/presentation/features/main_notes/pages/home_page.dart'
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  ThemePreferences.init();
-  UserPreferences.init();
-  NotesPreferences.init();
+  await ThemePreferences.init();
+  await UserPreferences.init();
+  await NotesPreferences.init();
   runApp(const MyApp());
 }
 

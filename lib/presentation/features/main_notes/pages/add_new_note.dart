@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
 import '../../../../common/common.dart';
 import '../../../../data/models/models.dart';
 import '../../../../logic/blocs/blocs.dart';
@@ -23,8 +24,9 @@ class _AddNotePageState extends State<AddNotePage> {
     context.read<NotesBloc>().add(NoteIsReadOnlyEvent(readOnly: readOnly));
   }
 
-  addNewNote(Note note) {
+  addNewNote(Note note, List<Note> notes) {
     context.read<NotesBloc>().add(AddNewNoteEvent(note: note));
+    NotesPreferences.saveNotesToPrefs(notes);
   }
 
   @override
@@ -44,6 +46,7 @@ class _AddNotePageState extends State<AddNotePage> {
                             title: _titleController.text,
                             content: _notesController.text,
                           ),
+                          state.notes,
                         );
                         Navigator.pop(context);
                       },

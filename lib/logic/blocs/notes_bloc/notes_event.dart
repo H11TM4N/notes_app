@@ -91,15 +91,6 @@ class AddUserNotesEvent extends NotesEvent {
   List<Object?> get props => [note];
 }
 
-class DeleteUserNoteEvent extends NotesEvent {
-  final Note note;
-
-  const DeleteUserNoteEvent({required this.note});
-
-  @override
-  List<Object?> get props => [note];
-}
-
 class ArchiveNoteEvent extends NotesEvent {
   final int index;
 
@@ -122,13 +113,6 @@ class StarNoteEvent extends NotesEvent {
   List<Object?> get props => [index];
 }
 
-class DeleteSelectedUserNotesEvent extends NotesEvent {
-  final List<Note> selectedNotes;
-  const DeleteSelectedUserNotesEvent({required this.selectedNotes});
-
-  @override
-  List<Object?> get props => [selectedNotes];
-}
 
 class RetrieveUserNotesEvent extends NotesEvent {
   const RetrieveUserNotesEvent();

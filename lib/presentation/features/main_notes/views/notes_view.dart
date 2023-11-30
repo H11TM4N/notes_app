@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
 import 'package:notes_app/presentation/features/main_notes/pages/edit_note.dart';
 
 import '../../../../common/common.dart';
@@ -28,16 +29,19 @@ class _NotesViewState extends State<NotesView> {
     context.read<NotesBloc>().add(DeSelectNoteEvent(index: index));
   }
 
-  deleteNote(Note note) {
+  deleteNote(Note note, int index) async {
     context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
+    await NotesPreferences.deleteNoteFromPrefs(index);
   }
 
-  starNote(int index) {
+  starNote(int index, bool isStarred) async {
     context.read<NotesBloc>().add(StarNoteEvent(index: index));
+    await NotesPreferences.starNoteToggle(index, isStarred);
   }
 
-  toggleArchive(int index) {
+  toggleArchive(int index, bool isArchived) async {
     context.read<NotesBloc>().add(ArchiveNoteEvent(index: index));
+    await NotesPreferences.archiveNoteToggle(index, isArchived);
   }
 
   @override
@@ -73,24 +77,25 @@ class _NotesViewState extends State<NotesView> {
             child: ListView.builder(
               itemCount: state.notes.length,
               itemBuilder: (context, index) {
+                final currentNote = state.notes[index];
                 return GestureDetector(
                   onLongPress: () {
                     selectNote(index);
                   },
-                  child: !state.notes[index].isArchived
+                  child: !currentNote.isArchived
                       ? KslidableWidget(
                           index: index,
                           onDelete: (_) {
-                            deleteNote(state.notes[index]);
+                            deleteNote(currentNote, index);
                           },
                           onStar: (_) {
-                            starNote(index);
+                            starNote(index, currentNote.isStarred);
                           },
                           onArchive: (_) {
-                            toggleArchive(index);
+                            toggleArchive(index, currentNote.isArchived);
                           },
                           child: KListTile(
-                            title: state.notes[index].title,
+                            title: currentNote.title,
                             onTap: () {
                               if (state.selectedIndices.isNotEmpty) {
                                 deSelectNote(index);
