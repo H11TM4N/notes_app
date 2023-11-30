@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
+import 'package:notes_app/logic/repositories/repos.dart';
 
 class NotesState extends Equatable {
   final List<Note> notes;
@@ -11,11 +12,17 @@ class NotesState extends Equatable {
   final List<int> selectedIndices;
 
   const NotesState({
-    this.notes = const <Note>[],
-    this.status = NoteStatus.initial,
-    this.readOnly = false,
-    this.selectedIndices = const <int>[],
+    required this.notes,
+    required this.status,
+    required this.readOnly,
+    required this.selectedIndices,
   });
+
+  NotesState.empty()
+      : notes = NotesPreferences.loadNotesFromPrefs(),
+        status = NoteStatus.initial,
+        readOnly = false,
+        selectedIndices = [];
 
   @override
   List<Object?> get props => [notes, status, readOnly, selectedIndices];

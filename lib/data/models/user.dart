@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:notes_app/logic/repositories/repos.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class User {
   final String name;
@@ -7,6 +9,8 @@ class User {
   User({
     required this.name,
   });
+
+  User.empty() : name = UserPreferences.getUserName() ?? '. . .';
 
   User copyWith({
     String? name,

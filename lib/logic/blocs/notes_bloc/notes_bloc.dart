@@ -4,9 +4,10 @@ import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
 import 'package:notes_app/logic/blocs/notes_bloc/notes_event.dart';
 import 'package:notes_app/logic/blocs/notes_bloc/notes_state.dart';
+import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
-  NotesBloc() : super(const NotesState()) {
+  NotesBloc() : super(NotesState.empty()) {
     on<AppStartedEvent>(_onAppStarted);
 
     on<AddNewNoteEvent>(_addNewNote);
@@ -45,6 +46,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       }
       List<Note>? updatedNotes = List.from(state.notes);
       updatedNotes[event.index] = note;
+      NotesPreferences.saveStarredStatus(
+          state.notes[event.index].isStarred); //*prefs
       emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
     } else {
       emit(state.copyWith(status: NoteStatus.error));
@@ -62,6 +65,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       }
       List<Note>? updatedNotes = List.from(state.notes);
       updatedNotes[event.index] = note;
+      NotesPreferences.saveArchivedStatus(
+          state.notes[event.index].isArchived); //*prefs
       emit(state.copyWith(notes: updatedNotes, status: NoteStatus.success));
       var notArchivedNotes =
           state.notes.where((note) => !note.isArchived).toList();
@@ -122,6 +127,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       List<Note>? updatedNotes = List.from(state.notes);
       if (event.index >= 0 && event.index < updatedNotes.length) {
         updatedNotes[event.index] = event.updatedNote;
+        NotesPreferences.saveNotesToPrefs(updatedNotes); //*prefs
         emit(state.copyWith(
           notes: updatedNotes,
           status: NoteStatus.success,
@@ -149,6 +155,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       for (var index in selectedIndices) {
         updatedNotes.removeAt(index);
       }
+      NotesPreferences.saveNotesToPrefs(updatedNotes); //*prefs
       var notArchivedNotes =
           state.notes.where((note) => !note.isArchived).toList();
       if (updatedNotes.isEmpty || notArchivedNotes.isEmpty) {
@@ -173,6 +180,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(state.copyWith(status: NoteStatus.loading));
     try {
       state.notes.remove(event.note);
+      NotesPreferences.saveNotesToPrefs(state.notes); //*prefs
       var notArchivedNotes =
           state.notes.where((note) => !note.isArchived).toList();
       if (state.notes.isEmpty || notArchivedNotes.isEmpty) {
@@ -194,6 +202,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(state.copyWith(status: NoteStatus.loading));
     try {
       state.notes.clear();
+      NotesPreferences.saveNotesToPrefs(state.notes); //*prefs
       emit(state.copyWith(
         status: NoteStatus.initial,
       ));
@@ -208,6 +217,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       List<Note> temp = [];
       temp.addAll(state.notes);
       temp.insert(0, event.note);
+      NotesPreferences.saveNotesToPrefs(temp); //*prefs
       emit(state.copyWith(
         notes: temp,
         status: NoteStatus.success,

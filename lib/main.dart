@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/theme/theme.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/logic/repositories/repos.dart';
 import 'package:notes_app/presentation/features/main_notes/pages/home_page.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  ThemePreferences.init();
+  UserPreferences.init();
+  NotesPreferences.init();
   runApp(const MyApp());
 }
 

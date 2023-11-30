@@ -22,7 +22,7 @@ void main() {
     });
 
     test('initial state of notesBloc is NotesState()', () {
-      expect(notesBloc.state, const NotesState());
+      expect(notesBloc.state, NotesState.empty());
     });
 
     blocTest<NotesBloc, NotesState>(
