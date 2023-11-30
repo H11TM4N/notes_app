@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
 import 'package:notes_app/presentation/features/settings/settings_page.dart';
 import 'package:notes_app/presentation/features/starred/pages/starred_page.dart';
+import 'package:notes_app/presentation/features/todos/pages/todo_page.dart';
 
 import '../../../../common/common.dart';
 
@@ -65,7 +66,9 @@ class _KdrawerState extends State<Kdrawer> {
                     ListTile(
                       leading: const Icon(Icons.task),
                       title: const Text('Todos'),
-                      onTap: () {},
+                      onTap: () {
+                        bottomToTopNavigation(context, const TodoPage());
+                      },
                     ),
                     ListTile(
                       leading: const Icon(Icons.star_outline),

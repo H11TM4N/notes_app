@@ -25,8 +25,8 @@ class NotesPreferences {
           .map((noteJson) => Note.fromJson(json.decode(noteJson)))
           .toList();
       notes[index] = updatedNote;
-      _notesPrefs.setStringList(
-          _notesKey, notes.map((note) => json.encode(note.toJson())).toList());
+      await saveNotesToPrefs(
+          notes); // Make sure to call saveNotesToPrefs after updating
     }
   }
 
@@ -66,7 +66,7 @@ class NotesPreferences {
       if (index >= 0 && index < currentNotes.length) {
         currentNotes.removeAt(index);
       } else {
-        // ---------------
+        // Handle invalid index (out of bounds)
       }
     }
     await saveNotesAfterDeletion(currentNotes);

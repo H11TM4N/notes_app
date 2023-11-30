@@ -5,6 +5,7 @@ import 'package:notes_app/logic/blocs/blocs.dart';
 import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
 import 'package:notes_app/presentation/features/main_notes/pages/add_new_note.dart';
 import 'package:notes_app/presentation/features/settings/settings_page.dart';
+import 'package:notes_app/presentation/features/todos/pages/todo_page.dart';
 
 class KbottomNavBar extends StatelessWidget {
   const KbottomNavBar({super.key});
@@ -49,7 +50,9 @@ class KbottomNavBar extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      bottomToTopNavigation(context, const TodoPage());
+                    },
                     icon: const Icon(Icons.format_list_bulleted),
                   ),
                   const Spacer(),
