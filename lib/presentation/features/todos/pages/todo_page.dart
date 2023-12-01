@@ -52,31 +52,34 @@ class _TodoPageState extends State<TodoPage> {
                     itemCount: state.todos.length,
                     itemBuilder: (context, index) {
                       final todo = state.todos[index];
-                      return KListTile(
-                          title: todo.title,
-                          onTap: () {},
-                          tileColor: theme.primary);
+                      if (index < state.todos.length) {
+                        return KListTile(
+                            title: todo.title,
+                            onTap: () {},
+                            tileColor: theme.primary);
+                      } else {
+                        return Column(
+                          children: [
+                            KtextField(
+                              controller: _controller,
+                              hintText: 'Enter new Task',
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  todoRepository.addTodo(Todo(
+                                    title: _controller.text,
+                                    isCompleted: false,
+                                  ));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    shape: const RoundedRectangleBorder()),
+                                child: const Text('Add')),
+                          ],
+                        );
+                      }
                     },
                   ),
                 ),
-              ),
-              Column(
-                children: [
-                  KtextField(
-                    controller: _controller,
-                    hintText: 'Enter new Task',
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        todoRepository.addTodo(Todo(
-                          title: _controller.text,
-                          isCompleted: false,
-                        ));
-                      },
-                      style: ElevatedButton.styleFrom(
-                          shape: const RoundedRectangleBorder()),
-                      child: const Text('Add')),
-                ],
               ),
             ],
           );
