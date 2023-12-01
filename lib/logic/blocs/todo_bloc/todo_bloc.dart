@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/models.dart';
-import 'todo_event.dart';
-import 'todo_state.dart';
+import 'package:notes_app/logic/blocs/blocs.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  TodoBloc() : super(TodoInitial()) {
+  TodoBloc() : super(const TodoState()) {
     on<AddTodoEvent>(_addTodo);
 
     on<RemoveTodoEvent>(_removeTodo);
@@ -15,49 +15,49 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   void _addTodo(AddTodoEvent event, Emitter emit) {
-    emit(TodoLoading());
+    emit(state.copyWith(todoStatus: TodoStatus.loading));
     try {
       List<Todo> temp = List.from(state.todos);
       temp.insert(0, event.todo);
-      emit(TodoLoadSuccess(loadedTodos: temp));
+      emit(state.copyWith(todos: temp));
     } catch (e) {
-      emit(const TodoLoadFailure(error: 'Failed to add Todo'));
+      emit(state.copyWith(todoStatus: TodoStatus.failure));
     }
   }
 
   void _removeTodo(RemoveTodoEvent event, Emitter emit) {
-    emit(TodoLoading());
+    emit(state.copyWith(todoStatus: TodoStatus.loading));
     try {
       List<Todo> temp = List.from(state.todos);
       temp.remove(event.todo);
-      emit(TodoLoadSuccess(loadedTodos: temp));
+      emit(state.copyWith(todos: temp));
     } catch (e) {
-      emit(const TodoLoadFailure(error: 'Failed to remove Todo'));
+      emit(state.copyWith(todoStatus: TodoStatus.failure));
     }
   }
 
   void _editTodo(EditTodoEvent event, Emitter emit) {
-    emit(TodoLoading());
+    emit(state.copyWith(todoStatus: TodoStatus.loading));
     try {
       List<Todo> todos = List.from(state.todos);
       todos[event.index] = event.updatedTodo;
-      emit(TodoLoadSuccess(loadedTodos: todos));
+      emit(state.copyWith(todos: todos));
     } catch (e) {
-      emit(const TodoLoadFailure(error: 'Failed to remove Todo'));
+      emit(state.copyWith(todoStatus: TodoStatus.failure));
     }
   }
 
   void _toggleTodoCompletion(ToggleCompletionEvent event, Emitter emit) {
-    emit(TodoLoading());
+    emit(state.copyWith(todoStatus: TodoStatus.loading));
     try {
       final List<Todo> todos = List.from(state.todos);
       final updatedTodo = todos[event.index].copyWith(
         isCompleted: !todos[event.index].isCompleted,
       );
       todos[event.index] = updatedTodo;
-      emit(TodoLoadSuccess(loadedTodos: todos));
+      emit(state.copyWith(todos: todos));
     } catch (e) {
-      emit(const TodoLoadFailure(error: 'Failed to remove Todo'));
+      emit(state.copyWith(todoStatus: TodoStatus.failure));
     }
   }
 }

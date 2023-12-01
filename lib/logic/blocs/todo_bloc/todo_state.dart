@@ -1,39 +1,30 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_firs
 import 'package:equatable/equatable.dart';
+import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/models.dart';
 
 class TodoState extends Equatable {
   final List<Todo> todos;
+  final TodoStatus todoStatus;
 
   const TodoState({
     this.todos = const [],
+    this.todoStatus = TodoStatus.initial,
   });
 
   @override
-  List<Object?> get props => [todos];
-}
+  List<Object?> get props => [todos, todoStatus];
 
-class TodoInitial extends TodoState {}
-
-class TodoLoading extends TodoState {}
-
-class TodoLoadSuccess extends TodoState {
-  final List<Todo> loadedTodos;
-
-  const TodoLoadSuccess({
-    required this.loadedTodos,
-  }) : super(todos: loadedTodos);
+  TodoState copyWith({
+    List<Todo>? todos,
+    TodoStatus? todoStatus,
+  }) {
+    return TodoState(
+      todos: todos ?? this.todos,
+      todoStatus: todoStatus ?? this.todoStatus,
+    );
+  }
 
   @override
-  List<Object?> get props => [loadedTodos];
-}
-
-class TodoLoadFailure extends TodoState {
-  final String error;
-
-  const TodoLoadFailure({
-    required this.error,
-  });
-
-  @override
-  List<Object?> get props => [error];
+  bool get stringify => true;
 }

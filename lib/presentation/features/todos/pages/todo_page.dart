@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/common/common.dart';
+import 'package:notes_app/data/models/models.dart';
+import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/logic/repositories/todo_repository/todo_repo.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key});
@@ -9,6 +13,17 @@ class TodoPage extends StatefulWidget {
 }
 
 class _TodoPageState extends State<TodoPage> {
+  final TextEditingController _controller = TextEditingController();
+
+  late TodoRepository todoRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    final todoBloc = context.read<TodoBloc>();
+    todoRepository = TodoRepository(todoBloc);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
@@ -26,10 +41,46 @@ class _TodoPageState extends State<TodoPage> {
         ),
       ),
       backgroundColor: theme.background,
-      body: ListView(
-        children: [
-          Lottie.asset('assets/json/error.json'),
-        ],
+      body: BlocBuilder<TodoBloc, TodoState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              Flexible(
+                child: Container(
+                  color: theme.secondary,
+                  child: ListView.builder(
+                    itemCount: state.todos.length,
+                    itemBuilder: (context, index) {
+                      final todo = state.todos[index];
+                      return KListTile(
+                          title: todo.title,
+                          onTap: () {},
+                          tileColor: theme.primary);
+                    },
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  KtextField(
+                    controller: _controller,
+                    hintText: 'Enter new Task',
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        todoRepository.addTodo(Todo(
+                          title: _controller.text,
+                          isCompleted: false,
+                        ));
+                      },
+                      style: ElevatedButton.styleFrom(
+                          shape: const RoundedRectangleBorder()),
+                      child: const Text('Add')),
+                ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
