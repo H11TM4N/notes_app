@@ -5,3 +5,10 @@ enum NoteStatus {
   success,
   error,
 }
+
+enum TodoStatus {
+  initial,
+  loading,
+  success,
+  failure,
+}

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
@@ -33,7 +32,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<ClearSelectionEvent>(_clearSelection);
   }
 
-  FutureOr<void> _starNote(event, emit) {
+  void _starNote(event, emit) {
     emit(state.copyWith(status: NoteStatus.loading));
     if (event.index >= 0 && event.index < state.notes.length) {
       var note = state.notes[event.index];
@@ -50,11 +49,11 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _clearSelection(event, emit) async {
+  void _clearSelection(event, emit) async {
     emit(state.copyWith(selectedIndices: [])); // Clear the selected indices
   }
 
-  FutureOr<void> _deSelectNote(event, emit) {
+  void _deSelectNote(event, emit) {
     try {
       final selectedIndices = List<int>.from(state.selectedIndices);
       selectedIndices.remove(event.index);
@@ -64,7 +63,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _selectNote(event, emit) {
+  void _selectNote(event, emit) {
     try {
       if (!state.selectedIndices.contains(event.index)) {
         final selectedIndices = List<int>.from(state.selectedIndices);
@@ -76,7 +75,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _onReadOnlyTrue(event, emit) {
+  void _onReadOnlyTrue(event, emit) {
     try {
       emit(state.copyWith(readOnly: true));
     } catch (e) {
@@ -84,7 +83,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _onReadOnlyFalse(event, emit) {
+  void _onReadOnlyFalse(event, emit) {
     try {
       emit(state.copyWith(readOnly: false));
     } catch (e) {
@@ -92,7 +91,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _editNote(event, emit) async {
+  void _editNote(event, emit) async {
     emit(state.copyWith(status: NoteStatus.loading));
     emit(state.copyWith(status: NoteStatus.edited));
     try {
@@ -116,7 +115,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _deleteSelectedNotes(event, emit) async {
+  void _deleteSelectedNotes(event, emit) async {
     final List<int> selectedIndices = state.selectedIndices.toList();
     List<Note> updatedNotes = List.from(state.notes);
     emit(state.copyWith(status: NoteStatus.loading));
@@ -147,7 +146,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _deleteNote(event, emit) async {
+  void _deleteNote(event, emit) async {
     emit(state.copyWith(status: NoteStatus.loading));
     try {
       state.notes.remove(event.note);
@@ -167,7 +166,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _deleteAllNotes(event, emit) async {
+  void _deleteAllNotes(event, emit) async {
     emit(state.copyWith(status: NoteStatus.loading));
     try {
       state.notes.clear();
@@ -179,7 +178,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _addNewNote(event, emit) async {
+  void _addNewNote(event, emit) async {
     emit(state.copyWith(status: NoteStatus.loading));
     try {
       List<Note> temp = [];
@@ -195,7 +194,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
   }
 
-  FutureOr<void> _onAppStarted(event, emit) async {
+  void _onAppStarted(event, emit) async {
     emit(
       state.copyWith(status: NoteStatus.loading),
     );
