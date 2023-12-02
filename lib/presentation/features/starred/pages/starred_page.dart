@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notes_app/common/common.dart';
-import 'package:notes_app/data/models/models.dart';
 import 'package:notes_app/logic/repositories/repos.dart';
 
 import '../../../../logic/blocs/blocs.dart';
@@ -15,14 +14,13 @@ class StarredPage extends StatefulWidget {
 }
 
 class _StarredPageState extends State<StarredPage> {
-  deleteNote(Note note, int index) async {
-    context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
-    await NotesPreferences.deleteNoteFromPrefs(index);
-  }
+  late NoteRepository _noteRepository;
 
-  starNote(int index, bool isStarred) async {
-    context.read<NotesBloc>().add(StarNoteEvent(index: index));
-    await NotesPreferences.starNoteToggle(index, isStarred);
+  @override
+  void initState() {
+    super.initState();
+    final notesBloc = context.read<NotesBloc>();
+    _noteRepository = NoteRepository(notesBloc);
   }
 
   @override
@@ -44,10 +42,10 @@ class _StarredPageState extends State<StarredPage> {
                 return KslidableWidget(
                   index: index,
                   onDelete: (_) {
-                    deleteNote(currentNote, index);
+                    _noteRepository.removeNote(currentNote);
                   },
                   onStar: (_) {
-                    starNote(index, currentNote.isStarred);
+                    _noteRepository.starNote(index);
                   },
                   child: KListTile(
                       title: currentNote.title,

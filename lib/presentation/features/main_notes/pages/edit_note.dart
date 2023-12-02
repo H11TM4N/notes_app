@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
+import 'package:notes_app/logic/repositories/notes_repository/notes_repo.dart';
 import '../../../../common/common.dart';
 import '../../../../data/models/models.dart';
 import '../../../../logic/blocs/blocs.dart';
@@ -14,24 +14,13 @@ class EditNotePage extends StatefulWidget {
 }
 
 class _EditNotePageState extends State<EditNotePage> {
-  makeReadOnlyFalse(bool readOnly) {
-    context.read<NotesBloc>().add(NoteNotReadOnlyEvent(readOnly: readOnly));
-  }
+  late NoteRepository _noteRepository;
 
-  makeReadOnlyTrue(bool readOnly) {
-    context.read<NotesBloc>().add(NoteIsReadOnlyEvent(readOnly: readOnly));
-  }
-
-  editNote(int index, Note updatedNote) {
-    context
-        .read<NotesBloc>()
-        .add(EditNoteEvent(index: index, updatedNote: updatedNote));
-    NotesPreferences.updateNoteInPrefs(index, updatedNote);
-  }
-
-  deleteNote(Note note, int index) {
-    context.read<NotesBloc>().add(DeleteNoteEvent(note: note));
-    NotesPreferences.deleteNoteFromPrefs(index);
+  @override
+  void initState() {
+    super.initState();
+    final notesBloc = context.read<NotesBloc>();
+    _noteRepository = NoteRepository(notesBloc);
   }
 
   @override
@@ -60,14 +49,14 @@ class _EditNotePageState extends State<EditNotePage> {
                             notesController.text.isEmpty) {
                           Navigator.pop(context);
                         } else {
-                          editNote(
+                         _noteRepository.editNote(
                             widget.index,
                             Note(
                               title: titleController.text,
                               content: notesController.text,
                             ),
                           );
-                          makeReadOnlyTrue(state.readOnly);
+                         _noteRepository.readOnly(state.readOnly);
                         }
                       },
                       icon: const Icon(Icons.check),
@@ -84,7 +73,7 @@ class _EditNotePageState extends State<EditNotePage> {
               actions: [
                 state.readOnly
                     ? IconButton(
-                        onPressed: () => makeReadOnlyFalse(state.readOnly),
+                        onPressed: () => _noteRepository.notReadOnly(state.readOnly),
                         icon: const Icon(Icons.edit),
                       )
                     : const SizedBox.shrink(),
@@ -92,7 +81,7 @@ class _EditNotePageState extends State<EditNotePage> {
                   text: 'Delete',
                   onTap: () {
                     Navigator.popUntil(context, (route) => route.isFirst);
-                    deleteNote(state.notes[widget.index], widget.index);
+                    _noteRepository.removeNote(state.notes[widget.index]);
                   },
                 ),
               ],
@@ -100,7 +89,7 @@ class _EditNotePageState extends State<EditNotePage> {
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: GestureDetector(
-                onDoubleTap: () => makeReadOnlyFalse(state.readOnly),
+                onDoubleTap: () => _noteRepository.notReadOnly(state.readOnly),
                 child: TextFormField(
                   controller: notesController,
                   keyboardType: TextInputType.multiline,

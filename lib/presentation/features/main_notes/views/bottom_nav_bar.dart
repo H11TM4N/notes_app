@@ -2,25 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/common/utils/page_transition.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
-import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
+import 'package:notes_app/logic/repositories/repos.dart';
 import 'package:notes_app/presentation/features/main_notes/pages/add_new_note.dart';
 import 'package:notes_app/presentation/features/settings/settings_page.dart';
 import 'package:notes_app/presentation/features/todos/pages/todo_page.dart';
 
-class KbottomNavBar extends StatelessWidget {
+class KbottomNavBar extends StatefulWidget {
   const KbottomNavBar({super.key});
 
   @override
+  State<KbottomNavBar> createState() => _KbottomNavBarState();
+}
+
+class _KbottomNavBarState extends State<KbottomNavBar> {
+  late NoteRepository _noteRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    final notesBloc = context.read<NotesBloc>();
+    _noteRepository = NoteRepository(notesBloc);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    deleteSelectedNotes() {
-      context.read<NotesBloc>().add(DeleteSelectedNotesEvent());
-    }
-
-    deleteAllNotes() async {
-      context.read<NotesBloc>().add(DeleteAllNotesEvent());
-      await NotesPreferences.deleteAllNotesFromPrefs();
-    }
-
     return BlocBuilder<NotesBloc, NotesState>(
       builder: (context, state) {
         final theme = Theme.of(context).colorScheme;
@@ -31,7 +36,7 @@ class KbottomNavBar extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    deleteSelectedNotes();
+                   _noteRepository.deleteSelectedNotes();
                   },
                   icon: const Icon(Icons.delete),
                 ),
@@ -76,7 +81,7 @@ class KbottomNavBar extends StatelessWidget {
                             title: 'Delete all notes',
                             icon: Icons.delete_forever,
                             onTap: () {
-                              deleteAllNotes();
+                             _noteRepository.deleteAllNotes();
                             }),
                         popUpMenuButton(
                             title: 'Settings',

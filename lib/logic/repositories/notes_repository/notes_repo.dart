@@ -6,6 +6,10 @@ class NoteRepository {
 
   NoteRepository(this.notesBloc);
 
+   refreshPage() {
+    notesBloc.add(AppStartedEvent());
+  }
+
   void addNote(Note note) {
     notesBloc.add(AddNewNoteEvent(note: note));
   }
@@ -14,11 +18,11 @@ class NoteRepository {
     notesBloc.add(DeleteNoteEvent(note: note));
   }
 
-  void deleteSelectedNotes(){
+  void deleteSelectedNotes() {
     notesBloc.add(DeleteSelectedNotesEvent());
   }
 
-  void deleteAllNotes(){
+  void deleteAllNotes() {
     notesBloc.add(DeleteAllNotesEvent());
   }
 
@@ -30,23 +34,23 @@ class NoteRepository {
     notesBloc.add(StarNoteEvent(index: index));
   }
 
-  void selectNote(int index){
+  void selectNote(int index) {
     notesBloc.add(SelectNoteEvent(index: index));
   }
 
-  void deselectNote(int index){
+  void deselectNote(int index) {
     notesBloc.add(DeSelectNoteEvent(index: index));
   }
 
-  void clearSelection(){
+  void clearSelection() {
     notesBloc.add(ClearSelectionEvent());
   }
 
-  void readOnly(bool readOnly){
+  void readOnly(bool readOnly) {
     notesBloc.add(NoteIsReadOnlyEvent(readOnly: readOnly));
   }
 
-  void notReadOnly(bool readOnly){
+  void notReadOnly(bool readOnly) {
     notesBloc.add(NoteNotReadOnlyEvent(readOnly: readOnly));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
+import 'package:notes_app/logic/repositories/repos.dart';
 import '../../../../common/common.dart';
 import '../../../../data/models/models.dart';
 import '../../../../logic/blocs/blocs.dart';
@@ -16,17 +16,13 @@ class _AddNotePageState extends State<AddNotePage> {
   final TextEditingController _notesController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
 
-  makeReadOnlyFalse(bool readOnly) {
-    context.read<NotesBloc>().add(NoteNotReadOnlyEvent(readOnly: readOnly));
-  }
+  late NoteRepository _noteRepository;
 
-  makeReadOnlyTrue(bool readOnly) {
-    context.read<NotesBloc>().add(NoteIsReadOnlyEvent(readOnly: readOnly));
-  }
-
-  addNewNote(Note note, List<Note> notes) {
-    context.read<NotesBloc>().add(AddNewNoteEvent(note: note));
-    NotesPreferences.saveNotesToPrefs(notes);
+  @override
+  void initState() {
+    super.initState();
+    final notesBloc = context.read<NotesBloc>();
+    _noteRepository = NoteRepository(notesBloc);
   }
 
   @override
@@ -41,12 +37,11 @@ class _AddNotePageState extends State<AddNotePage> {
               leading: state.readOnly
                   ? IconButton(
                       onPressed: () {
-                        addNewNote(
+                        _noteRepository.addNote(
                           Note(
                             title: _titleController.text,
                             content: _notesController.text,
                           ),
-                          state.notes,
                         );
                         Navigator.pop(context);
                       },
@@ -58,7 +53,7 @@ class _AddNotePageState extends State<AddNotePage> {
                             _notesController.text.isEmpty) {
                           Navigator.pop(context);
                         } else {
-                          makeReadOnlyTrue(state.readOnly);
+                         _noteRepository.readOnly(state.readOnly);
                         }
                       },
                       icon: const Icon(Icons.check),
@@ -75,7 +70,7 @@ class _AddNotePageState extends State<AddNotePage> {
               actions: [
                 state.readOnly
                     ? IconButton(
-                        onPressed: () => makeReadOnlyFalse(state.readOnly),
+                        onPressed: () => _noteRepository.notReadOnly(state.readOnly),
                         icon: const Icon(Icons.edit),
                       )
                     : const SizedBox.shrink(),
@@ -90,7 +85,7 @@ class _AddNotePageState extends State<AddNotePage> {
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: GestureDetector(
-                onDoubleTap: () => makeReadOnlyFalse(state.readOnly),
+                onDoubleTap: () => _noteRepository.readOnly(state.readOnly),
                 child: TextFormField(
                   controller: _notesController,
                   keyboardType: TextInputType.multiline,

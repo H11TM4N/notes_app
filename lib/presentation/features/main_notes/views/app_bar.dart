@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/logic/repositories/repos.dart';
 
 import '../../../../logic/blocs/blocs.dart';
 
-class KappBar extends StatelessWidget implements PreferredSizeWidget {
+class KappBar extends StatefulWidget implements PreferredSizeWidget {
   const KappBar({super.key});
 
   @override
+  State<KappBar> createState() => _KappBarState();
+
+  @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _KappBarState extends State<KappBar> {
+  late NoteRepository _noteRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    final notesBloc = context.read<NotesBloc>();
+    _noteRepository = NoteRepository(notesBloc);
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
-    clearSelection() {
-      context.read<NotesBloc>().add(ClearSelectionEvent());
-    }
 
     return BlocBuilder<NotesBloc, NotesState>(
       builder: (context, state) {
@@ -23,7 +35,7 @@ class KappBar extends StatelessWidget implements PreferredSizeWidget {
             backgroundColor: theme.secondary,
             leading: IconButton(
               onPressed: () {
-                clearSelection();
+                _noteRepository.clearSelection();
               },
               icon: const Icon(Icons.clear),
             ),

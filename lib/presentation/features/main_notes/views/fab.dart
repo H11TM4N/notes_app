@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/common/common.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/logic/repositories/repos.dart';
 
 import '../pages/add_new_note.dart';
 
@@ -15,8 +16,13 @@ class Kfab extends StatefulWidget {
 }
 
 class _KfabState extends State<Kfab> {
-  makeReadOnlyFalse(bool readOnly) {
-    context.read<NotesBloc>().add(NoteNotReadOnlyEvent(readOnly: readOnly));
+  late NoteRepository _noteRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    final notesBloc = context.read<NotesBloc>();
+    _noteRepository = NoteRepository(notesBloc);
   }
 
   @override
@@ -27,7 +33,7 @@ class _KfabState extends State<Kfab> {
           shape: const CircleBorder(),
           child: const Icon(Icons.edit),
           onPressed: () {
-            makeReadOnlyFalse(state.readOnly);
+            _noteRepository.readOnly(state.readOnly);
             rightToLeftNavigation(context, const AddNotePage());
           },
         );
