@@ -17,19 +17,6 @@ class NotesPreferences {
     await _notesPrefs.setStringList(_notesKey, notesJsonList);
   }
 
-  static Future<void> updateNoteInPrefs(int index, Note updatedNote) async {
-    List<String> notesJson = _notesPrefs.getStringList(_notesKey) ?? [];
-
-    if (index >= 0 && index < notesJson.length) {
-      List<Note> notes = notesJson
-          .map((noteJson) => Note.fromJson(json.decode(noteJson)))
-          .toList();
-      notes[index] = updatedNote;
-      await saveNotesToPrefs(
-          notes); // Make sure to call saveNotesToPrefs after updating
-    }
-  }
-
   static List<Note> loadNotesFromPrefs() {
     final List<String>? notesJsonList = _notesPrefs.getStringList(_notesKey);
     if (notesJsonList != null) {
@@ -43,6 +30,26 @@ class NotesPreferences {
       _notesKey,
       notes.map((note) => jsonEncode(note.toJson())).toList(),
     );
+  }
+
+  //*----------------------------------------------------------------------
+  static Future<void> addNoteToPrefs(Note newNote) async {
+    List<Note> currentNotes = loadNotesFromPrefs();
+    currentNotes.add(newNote);
+    await saveNotesToPrefs(currentNotes);
+  }
+
+  static Future<void> updateNoteInPrefs(int index, Note updatedNote) async {
+    List<String> notesJson = _notesPrefs.getStringList(_notesKey) ?? [];
+
+    if (index >= 0 && index < notesJson.length) {
+      List<Note> notes = notesJson
+          .map((noteJson) => Note.fromJson(json.decode(noteJson)))
+          .toList();
+      notes[index] = updatedNote;
+      await saveNotesToPrefs(
+          notes); // Make sure to call saveNotesToPrefs after updating
+    }
   }
 
   static Future<void> deleteNoteFromPrefs(int index) async {
@@ -76,15 +83,13 @@ class NotesPreferences {
     await _notesPrefs.remove(_notesKey);
   }
 
-  static Future<void> starNoteToggle(int index, bool isStarred) async {
+  static Future<void> starNoteToggle(int index) async {
     List<Note> currentNotes = loadNotesFromPrefs();
 
     if (index >= 0 && index < currentNotes.length) {
-      currentNotes[index] = currentNotes[index].copyWith(isStarred: isStarred);
+      currentNotes[index].isStarred = !currentNotes[index].isStarred;
       await saveNotesToPrefs(currentNotes);
-    } else {
-      // Handle invalid index (out of bounds)
-    }
+    } 
   }
 
   // static Future<void> archiveNoteToggle(int index, bool isArchived) async {

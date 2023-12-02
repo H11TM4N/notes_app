@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/common/common.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
-import 'package:notes_app/logic/repositories/repos.dart';
+import 'package:notes_app/logic/services/services.dart';
 
 class TodoView extends StatefulWidget {
   const TodoView({super.key});
@@ -45,7 +45,7 @@ class _TodoViewState extends State<TodoView> {
                   child: KtodoTile(
                     title: todo.title,
                     onRemove: () {
-                      todoRepository.removeTodo(todo);
+                      todoRepository.removeTodo(todo, index);
                     },
                     toggleCompletion: () {
                       todoRepository.toggleCompletion(index);

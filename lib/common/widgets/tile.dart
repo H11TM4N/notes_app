@@ -91,7 +91,7 @@ class KtodoTile extends StatelessWidget {
                   isCompleted: isCompleted,
                 );
               },
-              icon: const Icon(Icons.more_horiz),
+              icon: const Icon(Icons.more_horiz, color: Colors.white),
             ),
             subtitle: isCompleted
                 ? Row(

@@ -2,6 +2,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/models.dart';
+import 'package:notes_app/logic/services/shared_preferences/todo_preferences.dart';
 
 class TodoState extends Equatable {
   final List<Todo> todos;
@@ -11,6 +12,10 @@ class TodoState extends Equatable {
     this.todos = const [],
     this.todoStatus = TodoStatus.initial,
   });
+
+  TodoState.empty()
+      : todos = TodoPreferences.loadTodosFromPrefs(),
+        todoStatus = TodoStatus.initial;
 
   @override
   List<Object?> get props => [todos, todoStatus];

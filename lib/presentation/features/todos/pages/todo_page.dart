@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/common/common.dart';
 import 'package:notes_app/data/models/models.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
-import 'package:notes_app/logic/repositories/todo_repository/todo_repo.dart';
+import 'package:notes_app/logic/services/repositories/todo_repo.dart';
 import 'package:notes_app/presentation/features/todos/views/todo_view.dart';
 
 class TodoPage extends StatefulWidget {
@@ -65,9 +65,11 @@ class _TodoPageState extends State<TodoPage> {
                         padding: const EdgeInsets.only(right: 8),
                         child: ElevatedButton(
                           onPressed: () {
-                            _todoRepository.addTodo(Todo(
-                              title: controller.text,
-                            ));
+                            _todoRepository.addTodo(
+                              Todo(
+                                title: controller.text,
+                              ),
+                            );
                             controller.clear();
                           },
                           style: ElevatedButton.styleFrom(

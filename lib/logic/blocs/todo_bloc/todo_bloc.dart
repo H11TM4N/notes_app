@@ -4,7 +4,7 @@ import 'package:notes_app/data/models/models.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  TodoBloc() : super(const TodoState()) {
+  TodoBloc() : super(TodoState.empty()) {
     on<AddTodoEvent>(_addTodo);
 
     on<RemoveTodoEvent>(_removeTodo);

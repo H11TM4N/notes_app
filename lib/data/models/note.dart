@@ -5,7 +5,7 @@ class Note {
   final String id;
   final String title;
   final String? content;
-  final bool isStarred;
+  bool isStarred;
 
   Note({
     this.id = '',
@@ -75,9 +75,6 @@ class Note {
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        title.hashCode ^
-        content.hashCode ^
-        isStarred.hashCode;
+    return id.hashCode ^ title.hashCode ^ content.hashCode ^ isStarred.hashCode;
   }
 }

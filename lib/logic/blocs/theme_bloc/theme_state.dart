@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
-import 'package:notes_app/logic/repositories/repos.dart';
+import 'package:notes_app/logic/services/services.dart';
 
 class ThemeState extends Equatable {
   final bool isDarkMode;

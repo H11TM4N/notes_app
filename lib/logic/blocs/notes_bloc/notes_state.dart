@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
-import 'package:notes_app/logic/repositories/repos.dart';
+import 'package:notes_app/logic/services/services.dart';
 
 class NotesState extends Equatable {
   final List<Note> notes;

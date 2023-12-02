@@ -3,7 +3,7 @@ import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/data/models/note.dart';
 import 'package:notes_app/logic/blocs/notes_bloc/notes_event.dart';
 import 'package:notes_app/logic/blocs/notes_bloc/notes_state.dart';
-import 'package:notes_app/logic/repositories/shared_preferences/notes_preferences.dart';
+import 'package:notes_app/logic/services/shared_preferences/notes_preferences.dart';
 
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
   NotesBloc() : super(NotesState.empty()) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/logic/repositories/repos.dart';
+import 'package:notes_app/logic/services/services.dart';
 
 import '../../../../logic/blocs/blocs.dart';
 

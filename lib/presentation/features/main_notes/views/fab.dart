@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/common/common.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
-import 'package:notes_app/logic/repositories/repos.dart';
+import 'package:notes_app/logic/services/services.dart';
 
 import '../pages/add_new_note.dart';
 

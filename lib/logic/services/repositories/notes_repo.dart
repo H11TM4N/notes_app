@@ -1,37 +1,44 @@
 import 'package:notes_app/data/models/models.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/logic/services/services.dart';
 
 class NoteRepository {
   final NotesBloc notesBloc;
 
   NoteRepository(this.notesBloc);
 
-   refreshPage() {
+  refreshPage() {
     notesBloc.add(AppStartedEvent());
   }
 
   void addNote(Note note) {
     notesBloc.add(AddNewNoteEvent(note: note));
+    NotesPreferences.addNoteToPrefs(note);
   }
 
-  void removeNote(Note note) {
+  void removeNote(Note note, int index) {
     notesBloc.add(DeleteNoteEvent(note: note));
+    NotesPreferences.deleteNoteFromPrefs(index);
   }
 
-  void deleteSelectedNotes() {
+  void deleteSelectedNotes(List<int> indicesToDelete) {
     notesBloc.add(DeleteSelectedNotesEvent());
+    NotesPreferences.deleteMultipleNotes(indicesToDelete);
   }
 
   void deleteAllNotes() {
     notesBloc.add(DeleteAllNotesEvent());
+    NotesPreferences.deleteAllNotesFromPrefs();
   }
 
   void editNote(int index, Note updatedNote) {
     notesBloc.add(EditNoteEvent(index: index, updatedNote: updatedNote));
+    //TODO: Implement
   }
 
   void starNote(int index) {
     notesBloc.add(StarNoteEvent(index: index));
+    NotesPreferences.starNoteToggle(index);
   }
 
   void selectNote(int index) {

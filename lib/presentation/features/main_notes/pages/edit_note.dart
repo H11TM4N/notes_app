@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/logic/repositories/notes_repository/notes_repo.dart';
+import 'package:notes_app/logic/services/repositories/notes_repo.dart';
 import '../../../../common/common.dart';
 import '../../../../data/models/models.dart';
 import '../../../../logic/blocs/blocs.dart';
@@ -49,14 +49,14 @@ class _EditNotePageState extends State<EditNotePage> {
                             notesController.text.isEmpty) {
                           Navigator.pop(context);
                         } else {
-                         _noteRepository.editNote(
+                          _noteRepository.editNote(
                             widget.index,
                             Note(
                               title: titleController.text,
                               content: notesController.text,
                             ),
                           );
-                         _noteRepository.readOnly(state.readOnly);
+                          _noteRepository.readOnly(state.readOnly);
                         }
                       },
                       icon: const Icon(Icons.check),
@@ -73,7 +73,8 @@ class _EditNotePageState extends State<EditNotePage> {
               actions: [
                 state.readOnly
                     ? IconButton(
-                        onPressed: () => _noteRepository.notReadOnly(state.readOnly),
+                        onPressed: () =>
+                            _noteRepository.notReadOnly(state.readOnly),
                         icon: const Icon(Icons.edit),
                       )
                     : const SizedBox.shrink(),
@@ -81,7 +82,8 @@ class _EditNotePageState extends State<EditNotePage> {
                   text: 'Delete',
                   onTap: () {
                     Navigator.popUntil(context, (route) => route.isFirst);
-                    _noteRepository.removeNote(state.notes[widget.index]);
+                    _noteRepository.removeNote(
+                        state.notes[widget.index], widget.index);
                   },
                 ),
               ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notes_app/common/common.dart';
-import 'package:notes_app/logic/repositories/repos.dart';
+import 'package:notes_app/logic/services/services.dart';
 
 import '../../../../logic/blocs/blocs.dart';
 
@@ -42,7 +42,7 @@ class _StarredPageState extends State<StarredPage> {
                 return KslidableWidget(
                   index: index,
                   onDelete: (_) {
-                    _noteRepository.removeNote(currentNote);
+                    _noteRepository.removeNote(currentNote, index);
                   },
                   onStar: (_) {
                     _noteRepository.starNote(index);

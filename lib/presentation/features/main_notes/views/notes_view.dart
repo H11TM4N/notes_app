@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notes_app/data/constants/enums.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
-import 'package:notes_app/logic/repositories/repos.dart';
+import 'package:notes_app/logic/services/services.dart';
 import 'package:notes_app/presentation/features/main_notes/pages/edit_note.dart';
 
 import '../../../../common/common.dart';
@@ -66,10 +66,10 @@ class _NotesViewState extends State<NotesView> {
                     child: KslidableWidget(
                       index: index,
                       onDelete: (_) {
-                        _noteRepository.removeNote(currentNote);
+                        _noteRepository.removeNote(currentNote, index);
                       },
                       onStar: (_) {
-                       _noteRepository.starNote(index);
+                        _noteRepository.starNote(index);
                       },
                       child: KListTile(
                         title: currentNote.title,
