@@ -71,12 +71,18 @@ class _KbottomNavBarState extends State<KbottomNavBar> {
                         popUpMenuButton(
                             title: 'New note',
                             icon: Icons.add,
-                            onTap: () {
-                              bottomToTopNavigation(
+                            onTap: () async {
+                              Navigator.pop(context);
+                              await bottomToTopNavigation(
                                   context, const AddNotePage());
                             }),
                         popUpMenuButton(
-                            title: 'New todo', icon: Icons.task, onTap: () {}),
+                          title: 'New todo',
+                          icon: Icons.task,
+                          onTap: () {
+                            rightToLeftNavigation(context, const TodoPage());
+                          },
+                        ),
                         popUpMenuButton(
                             title: 'Delete all notes',
                             icon: Icons.delete_forever,
