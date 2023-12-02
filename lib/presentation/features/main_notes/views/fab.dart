@@ -33,7 +33,7 @@ class _KfabState extends State<Kfab> {
           shape: const CircleBorder(),
           child: const Icon(Icons.edit),
           onPressed: () {
-            _noteRepository.readOnly(state.readOnly);
+            _noteRepository.notReadOnly(state.readOnly);
             rightToLeftNavigation(context, const AddNotePage());
           },
         );

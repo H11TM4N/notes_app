@@ -4,6 +4,7 @@ import 'package:notes_app/common/common.dart';
 import 'package:notes_app/data/models/models.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
 import 'package:notes_app/logic/repositories/todo_repository/todo_repo.dart';
+import 'package:notes_app/presentation/features/todos/views/todo_view.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key});
@@ -13,15 +14,15 @@ class TodoPage extends StatefulWidget {
 }
 
 class _TodoPageState extends State<TodoPage> {
-  final TextEditingController _controller = TextEditingController();
-
-  late TodoRepository todoRepository;
+  late TodoRepository _todoRepository;
+  late TextEditingController controller;
 
   @override
   void initState() {
     super.initState();
+    controller = TextEditingController();
     final todoBloc = context.read<TodoBloc>();
-    todoRepository = TodoRepository(todoBloc);
+    _todoRepository = TodoRepository(todoBloc);
   }
 
   @override
@@ -29,7 +30,7 @@ class _TodoPageState extends State<TodoPage> {
     final theme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: theme.primary,
+        backgroundColor: theme.secondary,
         centerTitle: true,
         title: const Row(
           mainAxisSize: MainAxisSize.min,
@@ -45,42 +46,45 @@ class _TodoPageState extends State<TodoPage> {
         builder: (context, state) {
           return Column(
             children: [
-              Flexible(
+              const Expanded(child: TodoView()),
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12)),
                 child: Container(
-                  color: theme.secondary,
-                  child: ListView.builder(
-                    itemCount: state.todos.length,
-                    itemBuilder: (context, index) {
-                      final todo = state.todos[index];
-                      if (index < state.todos.length) {
-                        return KListTile(
-                            title: todo.title,
-                            onTap: () {},
-                            tileColor: theme.primary);
-                      } else {
-                        return Column(
-                          children: [
-                            KtextField(
-                              controller: _controller,
-                              hintText: 'Enter new Task',
+                  color: theme.primary,
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: KtextField(
+                                  controller: controller,
+                                  hintText: 'Enter your task todo'))),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _todoRepository.addTodo(Todo(
+                              title: controller.text,
+                            ));
+                            controller.clear();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5),
+                              ),
                             ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  todoRepository.addTodo(Todo(
-                                    title: _controller.text,
-                                    isCompleted: false,
-                                  ));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    shape: const RoundedRectangleBorder()),
-                                child: const Text('Add')),
-                          ],
-                        );
-                      }
-                    },
+                          ),
+                          child: const Text('add'),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
+              )
             ],
           );
         },

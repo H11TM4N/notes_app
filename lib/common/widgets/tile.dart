@@ -50,3 +50,39 @@ class KListTile extends StatelessWidget {
     );
   }
 }
+
+class KtodoTile extends StatelessWidget {
+  final String title;
+  final void Function()? onTap;
+  final Color? tileColor;
+
+  const KtodoTile({
+    super.key,
+    required this.title,
+    required this.onTap,
+    required this.tileColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        child: Card(
+          child: ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+            title: Text(
+              title,
+              style: const TextStyle(fontSize: 20),
+            ),
+            onTap: onTap,
+            tileColor: tileColor,
+            titleTextStyle: const TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+}
