@@ -13,7 +13,6 @@ class TodoView extends StatefulWidget {
 
 class _TodoViewState extends State<TodoView> {
   late TodoRepository todoRepository;
-  bool _todoValue = false;
 
   @override
   void initState() {
@@ -29,23 +28,32 @@ class _TodoViewState extends State<TodoView> {
       builder: (context, state) {
         return ListView.builder(
           itemCount: state.todos.length,
-          itemBuilder: (context, index) {
+          itemBuilder: (ctx, index) {
             final todo = state.todos[index];
             return Row(
               children: [
                 Checkbox(
                   shape: const CircleBorder(),
-                  value: state.todos[index].isCompleted,
+                  checkColor: theme.background,
+                  value: todo.isCompleted,
                   onChanged: (value) {
-                    value = state.todos[index].isCompleted;
+                    value = todo.isCompleted;
                     todoRepository.toggleCompletion(index);
                   },
                 ),
                 Expanded(
                   child: KtodoTile(
                     title: todo.title,
-                    onTap: () {},
-                    tileColor: theme.secondary,
+                    onRemove: () {
+                      todoRepository.removeTodo(todo);
+                    },
+                    toggleCompletion: () {
+                      todoRepository.toggleCompletion(index);
+                    },
+                    isCompleted: todo.isCompleted,
+                    tileColor: todo.isCompleted
+                        ? const Color(0xff61677A)
+                        : theme.secondary,
                   ),
                 ),
               ],

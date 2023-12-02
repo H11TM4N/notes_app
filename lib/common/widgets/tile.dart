@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/common/common.dart';
 
 class KListTile extends StatelessWidget {
   final String title;
@@ -53,14 +54,18 @@ class KListTile extends StatelessWidget {
 
 class KtodoTile extends StatelessWidget {
   final String title;
-  final void Function()? onTap;
+  final void Function()? onRemove;
+  final void Function()? toggleCompletion;
   final Color? tileColor;
+  final bool isCompleted;
 
   const KtodoTile({
     super.key,
     required this.title,
-    required this.onTap,
+    required this.onRemove,
+    required this.toggleCompletion,
     required this.tileColor,
+    required this.isCompleted,
   });
 
   @override
@@ -77,7 +82,30 @@ class KtodoTile extends StatelessWidget {
               title,
               style: const TextStyle(fontSize: 20),
             ),
-            onTap: onTap,
+            trailing: IconButton(
+              onPressed: () {
+                showPopupMenu(
+                  context,
+                  onRemove: onRemove,
+                  toggle: toggleCompletion,
+                  isCompleted: isCompleted,
+                );
+              },
+              icon: const Icon(Icons.more_horiz),
+            ),
+            subtitle: isCompleted
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.check, size: 16),
+                      Text(
+                        'Completed',
+                        style: TextStyle(
+                            fontSize: 16, color: Colors.grey.shade400),
+                      ),
+                    ],
+                  )
+                : null,
             tileColor: tileColor,
             titleTextStyle: const TextStyle(color: Colors.white),
           ),
