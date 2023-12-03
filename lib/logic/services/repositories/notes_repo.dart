@@ -33,7 +33,7 @@ class NoteRepository {
 
   void editNote(int index, Note updatedNote) {
     notesBloc.add(EditNoteEvent(index: index, updatedNote: updatedNote));
-    //TODO: Implement
+    NotesPreferences.updateNoteInPrefs(index, updatedNote);
   }
 
   void starNote(int index) {

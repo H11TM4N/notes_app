@@ -29,6 +29,7 @@ class _TodoPageState extends State<TodoPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: theme.secondary,
         centerTitle: true,
@@ -46,7 +47,9 @@ class _TodoPageState extends State<TodoPage> {
         builder: (context, state) {
           return Column(
             children: [
-              const Expanded(child: TodoView()),
+              const Expanded(
+                child: TodoView(),
+              ),
               ClipRRect(
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),

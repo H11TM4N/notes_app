@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:notes_app/common/common.dart';
-import 'package:notes_app/logic/services/services.dart';
+import 'package:notes_app/presentation/features/main_notes/pages/edit_note.dart';
 
 import '../../../../logic/blocs/blocs.dart';
 
@@ -14,15 +14,6 @@ class StarredPage extends StatefulWidget {
 }
 
 class _StarredPageState extends State<StarredPage> {
-  late NoteRepository _noteRepository;
-
-  @override
-  void initState() {
-    super.initState();
-    final notesBloc = context.read<NotesBloc>();
-    _noteRepository = NoteRepository(notesBloc);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
@@ -34,37 +25,34 @@ class _StarredPageState extends State<StarredPage> {
       backgroundColor: theme.background,
       body: BlocBuilder<NotesBloc, NotesState>(
         builder: (context, state) {
-          return ListView.builder(
-            itemCount: state.notes.length,
-            itemBuilder: (context, index) {
-              var currentNote = state.notes[index];
-              if (currentNote.isStarred) {
-                return KslidableWidget(
-                  index: index,
-                  onDelete: (_) {
-                    _noteRepository.removeNote(currentNote, index);
+          final starred = state.notes.where((note) => note.isStarred).toList();
+          if (starred.isNotEmpty) {
+            return ListView.builder(
+              itemCount: starred.length,
+              itemBuilder: (context, index) {
+                var currentNote = starred[index];
+                return KListTile(
+                  title: currentNote.title,
+                  onTap: () {
+                    smoothNavigation(context, EditNotePage(index: index));
                   },
-                  onStar: (_) {
-                    _noteRepository.starNote(index);
-                  },
-                  child: KListTile(
-                      title: currentNote.title,
-                      onTap: () {},
-                      tileColor: Theme.of(context).colorScheme.secondary),
+                  tileColor: Theme.of(context).colorScheme.secondary,
                 );
-              } else {
-                return Column(
-                  children: [
-                    Lottie.asset('assets/json/empty-list.json'),
-                    Text(
-                      "No starred notes",
-                      style: emptyListStyle(context),
-                    ),
-                  ],
-                );
-              }
-            },
-          );
+              },
+            );
+          } else {
+            return Center(
+              child: Column(
+                children: [
+                  Lottie.asset('assets/json/empty-list.json'),
+                  Text(
+                    "No starred notes",
+                    style: emptyListStyle(context),
+                  ),
+                ],
+              ),
+            );
+          }
         },
       ),
     );

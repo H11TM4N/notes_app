@@ -40,15 +40,11 @@ class NotesPreferences {
   }
 
   static Future<void> updateNoteInPrefs(int index, Note updatedNote) async {
-    List<String> notesJson = _notesPrefs.getStringList(_notesKey) ?? [];
+    List<Note> currentNotes = loadNotesFromPrefs();
 
-    if (index >= 0 && index < notesJson.length) {
-      List<Note> notes = notesJson
-          .map((noteJson) => Note.fromJson(json.decode(noteJson)))
-          .toList();
-      notes[index] = updatedNote;
-      await saveNotesToPrefs(
-          notes); // Make sure to call saveNotesToPrefs after updating
+    if (index >= 0 && index < currentNotes.length) {
+      currentNotes[index] = updatedNote;
+      await saveNotesToPrefs(currentNotes);
     }
   }
 
@@ -72,8 +68,6 @@ class NotesPreferences {
     for (var index in indicesToDelete) {
       if (index >= 0 && index < currentNotes.length) {
         currentNotes.removeAt(index);
-      } else {
-        // Handle invalid index (out of bounds)
       }
     }
     await saveNotesAfterDeletion(currentNotes);
@@ -89,7 +83,7 @@ class NotesPreferences {
     if (index >= 0 && index < currentNotes.length) {
       currentNotes[index].isStarred = !currentNotes[index].isStarred;
       await saveNotesToPrefs(currentNotes);
-    } 
+    }
   }
 
   // static Future<void> archiveNoteToggle(int index, bool isArchived) async {

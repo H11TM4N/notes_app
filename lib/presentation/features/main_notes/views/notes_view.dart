@@ -34,7 +34,7 @@ class _NotesViewState extends State<NotesView> {
             child: Column(
               children: [
                 const SizedBox(height: 40),
-                Lottie.asset('assets/json/calendar.json'),
+                Lottie.asset('assets/json/empty-notes.json'),
                 Text(
                   'No notes added yet...',
                   style: TextStyle(
@@ -79,11 +79,8 @@ class _NotesViewState extends State<NotesView> {
                           } else if (state.selectedIndices.contains(index)) {
                             _noteRepository.selectNote(index);
                           } else {
-                            Navigator.push(
-                              context,
-                              MyCustomRouteTransition(
-                                  route: EditNotePage(index: index)),
-                            );
+                            smoothNavigation(
+                                context, EditNotePage(index: index));
                           }
                         },
                         tileColor: state.selectedIndices.contains(index)
