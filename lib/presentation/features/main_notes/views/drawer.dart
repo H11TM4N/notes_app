@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/logic/blocs/blocs.dart';
+import 'package:notes_app/logic/services/services.dart';
 import 'package:notes_app/presentation/features/settings/settings_page.dart';
 import 'package:notes_app/presentation/features/starred/pages/starred_page.dart';
 import 'package:notes_app/presentation/features/todos/pages/todo_page.dart';
@@ -15,8 +16,9 @@ class Kdrawer extends StatefulWidget {
 }
 
 class _KdrawerState extends State<Kdrawer> {
-  toggleTheme() {
+  toggleTheme(bool isDarkMode) {
     context.read<ThemeBloc>().add(const ToggleThemeEvent());
+    ThemePreferences.saveTheme(isDarkMode);
   }
 
   @override
@@ -115,7 +117,7 @@ class _KdrawerState extends State<Kdrawer> {
                   title: const Text('dark mode'),
                   value: themeState.isDarkMode,
                   onChanged: (_) {
-                    toggleTheme();
+                    toggleTheme(themeState.isDarkMode);
                   },
                 ),
               ),

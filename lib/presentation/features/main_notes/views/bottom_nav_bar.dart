@@ -27,7 +27,7 @@ class _KbottomNavBarState extends State<KbottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NotesBloc, NotesState>(
-      builder: (context, state) {
+      builder: (ctx, state) {
         final theme = Theme.of(context).colorScheme;
         if (state.selectedIndices.isNotEmpty) {
           return BottomAppBar(
@@ -50,6 +50,7 @@ class _KbottomNavBarState extends State<KbottomNavBar> {
         } else {
           return SafeArea(
             child: BottomAppBar(
+              shape: const CircularNotchedRectangle(),
               height: 70,
               color: theme.secondary,
               child: Row(

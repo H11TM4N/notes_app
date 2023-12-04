@@ -26,7 +26,7 @@ class _TodoViewState extends State<TodoView> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
     return BlocBuilder<TodoBloc, TodoState>(
-      builder: (context, state) {
+      builder: (ctx, state) {
         if (state.todos.isNotEmpty) {
           return ListView.builder(
             itemCount: state.todos.length,

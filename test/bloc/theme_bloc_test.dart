@@ -1,18 +1,22 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:notes_app/logic/blocs/theme_bloc/theme_bloc.dart';
 import 'package:notes_app/logic/blocs/theme_bloc/theme_event.dart';
 import 'package:notes_app/logic/blocs/theme_bloc/theme_state.dart';
-import 'package:test/test.dart';
 
 void main() {
-  group('theme bloc tests', () {
+  group('ThemeBloc tests', () {
     late ThemeBloc themeBloc;
 
     setUp(() {
       themeBloc = ThemeBloc();
     });
 
-    test('initial state of themeBloc shoould be ThemeState(isDarkMode: false)', () {
+    tearDownAll(() {
+      themeBloc.close();
+    });
+
+    test('initial state of themeBloc should be ThemeState(isDarkMode: false)', () {
       expect(themeBloc.state, const ThemeState(isDarkMode: false));
     });
 
@@ -21,16 +25,15 @@ void main() {
       build: () => themeBloc,
       expect: () => const [],
     );
+
     blocTest<ThemeBloc, ThemeState>(
-      'emits ThemeState(isDarkMode: true)] when MyEvent is added.',
+      'emits ThemeState(isDarkMode: true) when ToggleThemeEvent is added.',
       build: () => themeBloc,
       seed: () => const ThemeState(isDarkMode: false),
       act: (bloc) => bloc.add(const ToggleThemeEvent()),
       expect: () => const [ThemeState(isDarkMode: true)],
     );
 
-    tearDown(
-      () => themeBloc.close(),
-    );
+    // Add more tests as needed
   });
 }

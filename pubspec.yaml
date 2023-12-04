@@ -24,6 +24,7 @@ dependencies:
   lottie: ^2.7.0
   bloc_test: ^9.1.5
   shared_preferences: ^2.2.2
+  mocktail: ^1.0.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -33,7 +34,7 @@ flutter:
 
   assets:
     - assets/json/
-    - assets/images/
+    - assets/screenshots/
 
   fonts:
     - family: Merriweather

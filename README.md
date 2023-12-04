@@ -1,16 +1,58 @@
-# notes_app
+# NOTES_APP
 
-A new Flutter project.
+A simple notes app with extra features
 
-## Getting Started
+## Table of contents
 
-This project is a starting point for a Flutter application.
+- [Screenshot](#screenshot)
+- [Built with](#built-with)
+- [Features](#features)
+- [Useful resources](#useful-resources)
+- [Author](#author)
+- [Feedback](#feedback)
 
-A few resources to get you started if this is your first Flutter project:
+### Screenshot
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![](./assets/screenshots/todo_section.jpg)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Built with
+
+- Flutter
+- Dart
+- Bloc state management
+- Shared preferences(local storage)
+
+### Features
+
+1. **Cross-Platform Compatibility:**
+
+   - Works seamlessly on both Android and iOS platforms.
+
+2. **User-Friendly Interface:**
+
+   - Intuitive design for easy navigation and task management.
+
+3. **Task Management:**
+
+   - Create, read, update, and delete (CRUD) notes and tasks.
+
+4. **Light and Dark Mode:**
+
+   - Toggle between light and dark mode based on user preference.
+
+5. **Offline Usage:**
+   - Access and manage tasks even without an internet connection.
+
+### Useful resources
+
+- [Bloc for state management](https://youtu.be/SDk_GldOtK8?si=NXnesVTmIGCNM3Hp) - Although, I didn't learn bloc through this resource, Its relatively new and updated so I'd I'd recommend it to anyone struglling with bloc or just wants to get started.
+- [Shared Preferences](https://youtu.be/szOllHT1S7Y?si=RjeXsmQLpugX2EVx) - This is a 10 mins tutorial that covers the basics of shared preferences. Its where I learnt so, watch if you're interested.
+
+## Author
+
+- Github - [JER3MIAH](https://github.com/)
+- Twitter - [@jeremiah_008](https://twitter.com/jeremiah_008)
+
+## Feedback 
+
+Reac out out to me at [](jeremiah.devv@gmail.com)
