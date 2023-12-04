@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:notes_app/data/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,18 +38,11 @@ class TodoPreferences {
   }
 
   static Future<void> deleteTodoFromPrefs(int index) async {
-    List<Todo> currenttodos = loadTodosFromPrefs();
+    List<Todo> currentTodos = loadTodosFromPrefs();
 
-    if (index >= 0 && index < currenttodos.length) {
-      currenttodos.removeAt(index);
-      await saveTodosAfterDeletion(currenttodos);
+    if (index >= 0 && index < currentTodos.length) {
+      currentTodos.removeAt(index);
+      await savetodosToPrefs(currentTodos);
     }
-  }
-
-  static Future<void> saveTodosAfterDeletion(List<Todo> todos) async {
-    await _todoPrefs.setStringList(
-      _todoKey,
-      todos.map((todo) => jsonEncode(todo.toJson())).toList(),
-    );
   }
 }
