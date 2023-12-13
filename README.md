@@ -55,4 +55,4 @@ A simple notes app with extra features
 
 ## Feedback 
 
-Reac out out to me at [](jeremiah.devv@gmail.com)
+Reach out to me at [mail](jeremiah.devv@gmail.com)
