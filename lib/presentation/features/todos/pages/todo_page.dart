@@ -36,9 +36,9 @@ class _TodoPageState extends State<TodoPage> {
         title: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.task_alt),
+            Icon(Icons.task_alt, color: Colors.white),
             SizedBox(width: 4),
-            Text('Todos'),
+            Text('Todos', style: TextStyle(color: Colors.white)),
           ],
         ),
       ),

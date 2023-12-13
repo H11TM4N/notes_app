@@ -45,7 +45,15 @@ class _KappBarState extends State<KappBar> {
         } else {
           return AppBar(
             backgroundColor: theme.secondary,
-            title: const Text('Notes'),
+            leading: DrawerButton(
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              style: const ButtonStyle(
+                  iconColor: MaterialStatePropertyAll(Colors.white)),
+            ),
+            title: const Text(
+              'Notes',
+              style: TextStyle(color: Colors.white),
+            ),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
@@ -53,7 +61,11 @@ class _KappBarState extends State<KappBar> {
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.search, size: 30),
+                icon: const Icon(
+                  Icons.search,
+                  size: 30,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(width: 10),
             ],

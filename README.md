@@ -13,7 +13,7 @@ A simple notes app with extra features
 
 ### Screenshot
 
-![](./assets/screenshots/todo_section.jpg)
+| <img src="./assets/screenshots/notes_section.jpg" alt="todo section"> | <img src="./assets/screenshots/todo_section.jpg" alt="notes section"> |
 
 ### Built with
 
@@ -53,6 +53,6 @@ A simple notes app with extra features
 - Github - [JER3MIAH](https://github.com/)
 - Twitter - [@jeremiah_008](https://twitter.com/jeremiah_008)
 
-## Feedback 
+## Feedback
 
-Reach out to me at [mail](jeremiah.devv@gmail.com)
+Reach out to me at <jeremiah.devv@gmail.com>
