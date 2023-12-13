@@ -13,7 +13,7 @@ A simple notes app with extra features
 
 ### Screenshot
 
-| <img src="./assets/screenshots/notes_section.jpg" alt="todo section"> | <img src="./assets/screenshots/todo_section.jpg" alt="notes section"> |
+| <img src="./assets/screenshots/notes_section.jpg" width="200" alt="todo section" /> | <img src="./assets/screenshots/todo_section.jpg" width="200" alt="notes section" /> |
 
 ### Built with
 
